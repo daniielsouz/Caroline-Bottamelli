@@ -13,7 +13,7 @@ export default function Potencialize() {
         "Impulsione sua marca pessoal ou empresa.",
       ]}
       video="url()"
-      link="https://www.youtube.com/watch?v=VbH0dsKuReE"
+      link=""
       color="#768874"
     />
   );

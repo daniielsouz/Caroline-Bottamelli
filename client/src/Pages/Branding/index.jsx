@@ -13,7 +13,7 @@ export default function Branding() {
         "Fortaleça sua presença de marca.",
       ]}
       video="https://www.exemplo.com/video.mp4"
-      link="https://www.youtube.com/watch?v=VbH0dsKuReE"
+      link="#"
       color="#ac8485"
     />
   );

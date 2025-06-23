@@ -14,7 +14,7 @@ export default function Fenix() {
         "De forma 100% on-line.",
       ]}
       video="{VideoFenix}"
-      link="https://www.youtube.com/watch?v=VbH0dsKuReE"
+      link="https://form.respondi.app/5A36eZ9j"
       color="#543939"
     />
   );
