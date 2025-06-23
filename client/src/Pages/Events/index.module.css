@@ -1,0 +1,109 @@
+.sectionEvents {
+  position: relative;
+  min-height: 100%;
+  background-color: var(--background-color);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  font-family: var(--font);
+  padding: 4em 0;
+}
+.line {
+  content: "";
+  position: absolute;
+  background-color: var(--color-text-Carol);
+  height: 0.1px;
+  width: 90%;
+}
+
+.sectionEvents .line:first-of-type {
+  top: 10%;
+  right: 20%;
+}
+
+.sectionEvents .line:last-of-type {
+  height: 1px;
+  bottom: 10%;
+  right: 0;
+}
+
+.sectionEvents h3 {
+  font-size: 2em;
+  font-weight: 200;
+  color: var(--color-text-Carol);
+}
+
+.divEvents {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2em;
+}
+
+.eventsCard {
+  margin-top: 2em;
+  background-color: var(--color-text-Carol);
+  position: relative;
+  padding: 1em;
+  max-width: 400px;
+  min-height: 200px;
+  border-radius: 24px;
+  color: var(--background-color);
+  font-weight: 200;
+}
+
+.eventsCard h2 {
+  font-size: 24px;
+  margin-bottom: 1em;
+}
+
+.eventDescription {
+  display: flex;
+  gap: 1em;
+  flex-direction: column;
+  width: 50%;
+  height: 80%;
+  text-align: justify;
+}
+.eventInfos {
+  width: 100%;
+  display: flex;
+  gap: 5px;
+}
+.eventInfos div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10%;
+}
+.eventInfos span {
+  font-size: 12px;
+  text-align: start;
+}
+.eventInfos img {
+  width: 18px;
+}
+
+.logoCarol {
+  position: absolute;
+  top: 50%;
+  right: 2%;
+  transform: translateY(-50%);
+  opacity: 0.1;
+}
+.logoCarol img {
+  width: inherit;
+}
+
+.eventLink {
+  margin: 2em 0;
+}
+.eventLink a {
+  background-color: var(--color-text-Carol);
+  text-decoration: none;
+  color: var(--background-color);
+  padding: 1em;
+  border-radius: 24px;
+  text-transform: capitalize;
+}

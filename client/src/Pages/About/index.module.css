@@ -1,0 +1,46 @@
+.about {
+  display: flex;
+  min-height: 100vh;
+  font-family: var(--font);
+  color: var(--color-text-Carol);
+  padding-left: 10%;
+  background-color: var(--background-color);
+}
+
+.aboutText {
+  width: 60%;
+  display: flex;
+  gap: 15%;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.aboutText h2,
+.aboutText p {
+  width: 65%;
+  font-size: 24px;
+  font-weight: 200;
+  text-align: justify;
+}
+
+.focus {
+  font-weight: 500;
+}
+.emphasize {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.aboutImg {
+  width: 40%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aboutImg img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

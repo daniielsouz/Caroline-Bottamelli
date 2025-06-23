@@ -1,0 +1,112 @@
+.productSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  background-color: var(--background-color);
+  gap: 2rem;
+  align-items: start;
+  position: relative;
+  font-family: var(--font);
+}
+.backgroundImage {
+  position: absolute;
+  top: 10%;
+  right: 0;
+  width: 100%;
+  height: 90%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  opacity: 0.1;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.imgProduct {
+  grid-column: span 2;
+  position: relative;
+  text-align: right;
+  margin: 4rem 2em 0 0;
+}
+
+.imgProduct img {
+  width: 300px;
+  position: relative;
+  z-index: 2;
+  padding-left: 1rem;
+}
+
+.line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 1px;
+  transform: translateY(-50%);
+  z-index: 1;
+  background-color: var(--color-text-Carol);
+  width: 100%;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 20%;
+}
+
+.description h2 {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  font-weight: 200;
+}
+
+.videoLink {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  position: relative;
+}
+
+.videoLink video {
+  width: 500px;
+  height: auto;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.playButton {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  z-index: 3;
+  color: inherit;
+  opacity: 0.7;
+}
+
+.fadeOut {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.videoLink a {
+  text-decoration: none;
+  color: var(--background-color);
+  font-weight: 200;
+  font-size: 1.2rem;
+  padding: 0.5em 2em;
+  border-radius: 24px;
+  transition: background-color 0.3s ease;
+}
