@@ -1,26 +1,73 @@
 import style from "./index.module.css";
 
 export default function Header({ events }) {
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <header className={style.header}>
       <nav className={style.navbar}>
         <ul className={style.menu}>
           <li>
-            <a href="#Home">Home</a>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("Home");
+              }}
+            >
+              Home
+            </a>
           </li>
-          {events && (
+          {events.length > 0 && (
             <li>
-              <a href="#Eventos">Eventos</a>
+              <a
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  scrollToSection("Eventos");
+                }}
+              >
+                Eventos
+              </a>
             </li>
           )}
           <li>
-            <a href="#Potencialize">Potencialize</a>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("Potencialize");
+              }}
+            >
+              Potencialize
+            </a>
           </li>
           <li>
-            <a href="#Fenix">Fênix Mentoria</a>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("Fenix");
+              }}
+            >
+              Fênix Mentoria
+            </a>
           </li>
           <li>
-            <a href="#Branding">Projeto de Branding</a>
+            <a
+              href="#"
+              onClick={(e) => {
+                e.preventDefault();
+                scrollToSection("Branding");
+              }}
+            >
+              Projeto de Branding
+            </a>
           </li>
         </ul>
       </nav>
