@@ -1,6 +1,12 @@
 import style from "./index.module.css";
 import LogoCarol from "./../../assets/img/logoCarol.png";
+
 export default function Events({ events }) {
+  function formDate(date) {
+    const [years, month, day] = date.split("-");
+    return `${day}/${month}/${years}`;
+  }
+
   return (
     <>
       {events && (
@@ -18,7 +24,7 @@ export default function Events({ events }) {
                     <div className={style.eventInfos}>
                       <div>
                         <img src="./img/calendar-icon.svg" alt="" />
-                        <span>{e.eventDate}</span>
+                        <span>{formDate(e.eventDate)}</span>
                       </div>
                       <div>
                         <img src="./img/address-icon.svg" alt="" />

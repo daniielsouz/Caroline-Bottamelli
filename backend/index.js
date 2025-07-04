@@ -47,6 +47,31 @@ app.post("/eventRegister", async (requisicao, resposta) => {
   }
 });
 
+app.put("/event/:id", async (req, res) => {
+  const { id } = req.params;
+  const updates = req.body;
+  try {
+    const updateEvent = await Event.findByIdAndUpdate(id, updates, {
+      new: true,
+    });
+    res.json(updateEvent);
+  } catch {
+    (err) => {
+      console.error(err);
+    };
+  }
+});
+
+app.delete("/event/deleteEvent/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await Event.findByIdAndDelete(id);
+    res.json("Evento excluido");
+  } catch (err) {
+    res.json("Houve um problema ao excluir o projeto");
+  }
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`Servidor rodando na porta ${process.env.PORT}`);
 });

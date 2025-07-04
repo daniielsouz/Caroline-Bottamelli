@@ -1,12 +1,18 @@
 import { useState } from "react";
 import style from "./index.module.css";
+import styleAdm from "./../index.module.css";
+import Message from "../../../components/Message";
+
 export default function Register() {
   const [message, setMessage] = useState(null);
+  const [typeMessage, setTypeMessage] = useState("");
+
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
     const apiUrl = import.meta.env.VITE_API_URL;
+
     fetch(`${apiUrl}/eventRegister`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -16,23 +22,22 @@ export default function Register() {
       .then((msg) => {
         e.target.reset();
         setMessage(msg);
-        setTimeout(() => setMessage(null), 3000);
+        setTypeMessage("success");
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        setMessage("Erro ao cadastrar evento.");
       });
   }
-  return (
-    <section className={style.eventRegister}>
-      {message && (
-        <div className={`${style.mensage} ${style.mensageVisible}`}>
-          {message}
-        </div>
-      )}
 
-      <h2>Bem vinda!</h2>
+  return (
+    <div>
+      {message && (
+        <Message type={typeMessage} onClose={() => setMessage(null)}>
+          {message}
+        </Message>
+      )}
       <form onSubmit={handleSubmit}>
-        <div className={style.eventInputs}>
+        <div className={styleAdm.divInputs}>
           <div>
             <label htmlFor="eventName">Nome do evento: </label>
             <input name="eventName" id="eventName" type="text" />
@@ -48,8 +53,6 @@ export default function Register() {
               id="eventDate"
               name="eventDate"
               min={new Date().toISOString().split("T")[0]}
-              onChange={(e) => console.log(e.target.value)}
-              onFocus={(e) => e.target.showPicker && e.target.showPicker()}
             />
           </div>
           <div>
@@ -65,6 +68,6 @@ export default function Register() {
           <button type="submit">Cadastrar evento</button>
         </div>
       </form>
-    </section>
+    </div>
   );
 }

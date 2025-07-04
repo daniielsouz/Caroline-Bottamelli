@@ -9,15 +9,15 @@
   padding: 4em 0;
 }
 .line {
-  content: "";
   position: absolute;
+  top: 0;
   background-color: var(--color-text-Carol);
   height: 0.1px;
   width: 90%;
 }
 
 .sectionEvents .line:first-of-type {
-  top: 10%;
+  top: 0;
   right: 20%;
 }
 
@@ -46,7 +46,7 @@
   background-color: var(--color-text-Carol);
   position: relative;
   padding: 1em;
-  max-width: 400px;
+  min-width: 400px;
   min-height: 200px;
   border-radius: 24px;
   color: var(--background-color);

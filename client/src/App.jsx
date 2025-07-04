@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import About from "./Pages/About";
@@ -6,7 +6,8 @@ import Events from "./Pages/Events";
 import Potencialize from "./Pages/Potencialize";
 import Fenix from "./Pages/Fenix";
 import Branding from "./Pages/Branding";
-import Register from "./Pages/Register";
+import Adm from "./Pages/Adm/index";
+import Register from "./Pages/Adm/Register";
 
 function MainPage({ events }) {
   return (
@@ -23,7 +24,6 @@ function MainPage({ events }) {
 
 function AppRoutes() {
   const [events, setEvents] = useState([]);
-  const location = useLocation();
 
   useEffect(() => {
     const apiUrl = import.meta.env.VITE_API_URL;
@@ -35,7 +35,7 @@ function AppRoutes() {
 
   return (
     <Routes>
-      <Route path="/adm" element={<Register />} />
+      <Route path="/adm" element={<Adm events={events} />} />
       <Route path="*" element={<MainPage events={events} />} />
     </Routes>
   );
