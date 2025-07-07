@@ -7,7 +7,6 @@ import Potencialize from "./Pages/Potencialize";
 import Fenix from "./Pages/Fenix";
 import Branding from "./Pages/Branding";
 import Adm from "./Pages/Adm/index";
-import Register from "./Pages/Adm/Register";
 
 function MainPage({ events }) {
   return (

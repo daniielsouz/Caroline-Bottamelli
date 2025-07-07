@@ -1,6 +1,7 @@
 import Products from "../../components/Products";
 import ImgPotencialize from "./../../assets/img/potencialize.png";
 import logotipoPotencialize from "./../../assets/img/logotipoPotencialize.png";
+
 export default function Potencialize() {
   return (
     <Products
@@ -12,8 +13,8 @@ export default function Potencialize() {
         "Tenha presença nas redes sociais.",
         "Impulsione sua marca pessoal ou empresa.",
       ]}
-      video="url()"
-      link=""
+      video=""
+      link="https://form.respondi.app/HoCh4ZKi"
       color="#768874"
     />
   );

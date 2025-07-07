@@ -4,17 +4,20 @@ export default function About() {
   return (
     <section id="Home" className={style.about}>
       <div className={style.aboutText}>
-        <h2>
-          Sou <strong className={style.focus}>empresária</strong>,{" "}
-          <strong className={style.focus}>mentora</strong>,{" "}
-          <strong className={style.focus}>
-            estrategista de posicionamento
-          </strong>{" "}
-          e <strong className={style.focus}>personal branding</strong>. <br />
-          Lidero uma comunidade de mulheres
-          <br />
-          <strong className={style.emphasize}> POSICIONADAS</strong>.
-        </h2>
+        <div>
+          <div className={style.lineAbout} />
+          <h2>
+            Sou <strong className={style.focus}>empresária</strong>,{" "}
+            <strong className={style.focus}>mentora</strong>,{" "}
+            <strong className={style.focus}>
+              estrategista de posicionamento
+            </strong>{" "}
+            e <strong className={style.focus}>personal branding</strong>. <br />
+            Lidero uma comunidade de mulheres
+            <br />
+            <strong className={style.emphasize}> POSICIONADAS</strong>.
+          </h2>
+        </div>
         <p>É possível sim levar o digital de forma leve. </p>
       </div>
       <div className={style.aboutImg}>

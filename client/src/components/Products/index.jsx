@@ -70,46 +70,47 @@ export default function Products({
         />
         <img ref={logoRef} src={logo} alt="Logo serviço" />
       </div>
-
-      <div className={style.description}>
-        {description.map((i, index) => (
-          <h2 key={index}>{i}</h2>
-        ))}
-      </div>
-
-      <div className={style.videoLink}>
-        <div className={style.videoWrapper} onClick={togglePlay}>
-          <video
-            style={{ border: `3px ${color} solid` }}
-            ref={videoRef}
-            src={video}
-            poster={poster}
-            playsInline
-            preload="metadata"
-            className={style.customVideo}
-          />
-          {!isPlaying && (
-            <button
-              className={style.playButton}
-              style={{ color: color, borderColor: color }}
-              onClick={(e) => {
-                e.stopPropagation();
-                togglePlay();
-              }}
-            >
-              ▶
-            </button>
-          )}
+      <div className={style.divProduct}>
+        <div className={style.description}>
+          {description.map((i, index) => (
+            <h2 key={index}>{i}</h2>
+          ))}
         </div>
-        <div>
-          <a
-            style={{ backgroundColor: color }}
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Quero participar!
-          </a>
+
+        <div className={style.videoLink}>
+          <div className={style.videoWrapper} onClick={togglePlay}>
+            <video
+              style={{ border: `3px ${color} solid` }}
+              ref={videoRef}
+              src={video}
+              poster={poster}
+              playsInline
+              preload="metadata"
+              className={style.customVideo}
+            />
+            {!isPlaying && (
+              <button
+                className={style.playButton}
+                style={{ color: color, borderColor: color }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  togglePlay();
+                }}
+              >
+                ▶
+              </button>
+            )}
+          </div>
+          <div>
+            <a
+              style={{ backgroundColor: color }}
+              href={link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Quero participar!
+            </a>
+          </div>
         </div>
       </div>
     </section>

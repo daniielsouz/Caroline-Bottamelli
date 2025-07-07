@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Message from "./../../../components/Message";
 import styleAdm from "./../index.module.css";
+import style from "./index.module.css";
 
 export default function CRUD() {
   const [events, setEvents] = useState([]);
@@ -13,11 +14,14 @@ export default function CRUD() {
     link: false,
   });
   const [message, setMessage] = useState(null);
-  const [editEventName, setEditEventName] = useState("");
-  const [editEventDescription, setEditEventDescription] = useState("");
-  const [editEventDate, setEditEventDate] = useState("");
-  const [editEventLocation, setEditEventLocation] = useState("");
-  const [editEventLink, setEditEventLink] = useState("");
+  const [editValues, setEditValues] = useState({
+    name: "",
+    description: "",
+    date: "",
+    location: "",
+    link: "",
+  });
+  const [selectedEventId, setSelectedEventId] = useState("");
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -33,12 +37,25 @@ export default function CRUD() {
     return `${day}/${month}/${year}`;
   }
 
-  function updateEvent(e, nameMongo, nameDev, type) {
+  function updateEvent(e, field, mongoField) {
     e.preventDefault();
+    const newValue = editValues[field]?.trim();
+
+    if (!newValue) {
+      setMessage({ type: "info", text: "O campo não pode estar vazio." });
+      return;
+    }
+
+    const currentValue = eventSelected[mongoField];
+    if (newValue === currentValue) {
+      setMessage({ type: "info", text: "O valor não foi alterado." });
+      return;
+    }
+
     fetch(`${apiUrl}/event/${eventSelected._id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ [nameMongo]: nameDev }),
+      body: JSON.stringify({ [mongoField]: newValue }),
     })
       .then((res) => res.json())
       .then((update) => {
@@ -47,11 +64,11 @@ export default function CRUD() {
         );
         setEvents(updatedList);
         setEventSelected(update);
-        setEditing({ ...editing, [type]: false });
-        setMessage({ type: "success", text: "Salvo com sucesso" });
+        setEditing({ ...editing, [field]: false });
+        setMessage({ type: "success", text: "Salvo com sucesso." });
       })
       .catch((err) =>
-        setMessage({ type: "error", text: `Erro ao Salvar. Erro ${err}` })
+        setMessage({ type: "error", text: `Erro ao salvar. Erro: ${err}` })
       );
   }
 
@@ -60,34 +77,135 @@ export default function CRUD() {
 
     fetch(`${apiUrl}/event/deleteEvent/${id}`, { method: "DELETE" })
       .then(() => {
-        setMessage({ type: "success", text: "Evento excluído com sucesso" });
+        setMessage({ type: "success", text: "Evento excluído com sucesso." });
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       })
       .catch(() =>
-        setMessage({ type: "error", text: "Erro ao excluir o evento" })
+        setMessage({ type: "error", text: "Erro ao excluir o evento." })
       );
   }
 
+  function renderEditableField(label, field, mongoField, type = "text") {
+    const isEditing = editing[field];
+    const value =
+      type === "date" && !isEditing
+        ? formDate(eventSelected[mongoField])
+        : eventSelected[mongoField];
+
+    return (
+      <div>
+        {isEditing ? (
+          <form onSubmit={(e) => updateEvent(e, field, mongoField)}>
+            <input
+              type={type}
+              value={editValues[field] || ""}
+              onChange={(e) =>
+                setEditValues({ ...editValues, [field]: e.target.value })
+              }
+              {...(type === "date" && {
+                min: new Date().toISOString().split("T")[0],
+              })}
+              autoFocus
+            />
+            <label htmlFor={`saveEdit${field}`}>
+              <img
+                title="Salvar Edição"
+                className={style.icon}
+                src="./img/confirm-icon.svg"
+                alt="Icone salvar"
+              />
+            </label>
+            <label htmlFor={`cancelEdit${field}`}>
+              <img
+                title="Cancelar Edição"
+                className={style.icon}
+                src="./img/cancel-icon.svg"
+                alt="Icone cancelar"
+              />
+            </label>
+            <button hidden id={`saveEdit${field}`} type="submit">
+              Salvar
+            </button>
+            <button
+              hidden
+              id={`cancelEdit${field}`}
+              type="button"
+              onClick={() => setEditing({ ...editing, [field]: false })}
+            >
+              Cancelar
+            </button>
+          </form>
+        ) : (
+          <>
+            <label htmlFor={`editButton-${field}`}>
+              <img
+                title={`Editar`}
+                className={style.icon}
+                src="./img/edit-icon.svg"
+                alt="Icone para edição"
+              />
+            </label>
+            <button
+              id={`editButton-${field}`}
+              hidden
+              onClick={() => {
+                setEditValues({
+                  ...editValues,
+                  [field]: eventSelected[mongoField],
+                });
+                setEditing({ ...editing, [field]: true });
+              }}
+            >
+              Editar
+            </button>
+            <span>{value}</span>
+            {field === "name" && (
+              <>
+                <label htmlFor="eventDel">
+                  <img
+                    title="Deletar evento"
+                    className={style.icon}
+                    src="./img/del-icon.svg"
+                    alt="Icone lixeiro"
+                  />
+                </label>
+                <button
+                  hidden
+                  id="eventDel"
+                  onClick={() => handleDeleteEvent(eventSelected._id)}
+                >
+                  Excluir evento
+                </button>
+              </>
+            )}
+          </>
+        )}
+      </div>
+    );
+  }
+
   return (
-    <div>
+    <div className={styleAdm.divEvents}>
       {message && (
         <Message type={message.type} onClose={() => setMessage(null)}>
           {message.text}
         </Message>
       )}
 
-      {events.length > 0 && (
+      {events.length > 0 ? (
         <>
           <select
+            className={style.eventSelected}
             name="eventSelected"
             id="eventSelected"
-            defaultValue=""
+            value={selectedEventId}
             onChange={(e) => {
               const idSelected = e.target.value;
               const selectedEvent = events.find((e) => e._id === idSelected);
               setEventSelected(selectedEvent);
+              setSelectedEventId(idSelected);
             }}
           >
             <option value="" disabled>
@@ -101,210 +219,21 @@ export default function CRUD() {
           </select>
 
           {eventSelected && (
-            <div className={styleAdm.divInputsCrud}>
-              {/* NOME */}
-              <div>
-                {editing.name ? (
-                  <form
-                    onSubmit={(e) =>
-                      updateEvent(e, "eventName", editEventName, "name")
-                    }
-                  >
-                    <input
-                      autoFocus
-                      type="text"
-                      value={editEventName || ""}
-                      onChange={(e) => setEditEventName(e.target.value)}
-                    />
-                    <button type="submit">Salvar</button>
-                    <button
-                      type="button"
-                      onClick={() => setEditing({ ...editing, name: false })}
-                    >
-                      Cancelar
-                    </button>
-                  </form>
-                ) : (
-                  <>
-                    <h2>{eventSelected.eventName}</h2>
-                    <button
-                      onClick={() => {
-                        setEditEventName(eventSelected.eventName);
-                        setEditing({ ...editing, name: true });
-                      }}
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDeleteEvent(eventSelected._id)}
-                    >
-                      Excluir evento
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* DESCRIÇÃO */}
-              <div>
-                {editing.description ? (
-                  <form
-                    onSubmit={(e) => {
-                      updateEvent(
-                        e,
-                        "eventDescription",
-                        editEventDescription,
-                        "description"
-                      );
-                    }}
-                  >
-                    <input
-                      type="text"
-                      value={editEventDescription || ""}
-                      onChange={(e) => setEditEventDescription(e.target.value)}
-                    />
-                    <button type="submit">Salvar</button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setEditing({ ...editing, description: false })
-                      }
-                    >
-                      Cancelar
-                    </button>
-                  </form>
-                ) : (
-                  <>
-                    <p>{eventSelected.eventDescription}</p>
-                    <button
-                      onClick={() => {
-                        setEditEventDescription(eventSelected.eventDescription);
-                        setEditing({ ...editing, description: true });
-                      }}
-                    >
-                      Editar
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* DATA */}
-              <div>
-                {editing.date ? (
-                  <form
-                    onSubmit={(e) => {
-                      updateEvent(e, "eventDate", editEventDate, "date");
-                    }}
-                  >
-                    <input
-                      type="date"
-                      min={new Date().toISOString().split("T")[0]}
-                      value={editEventDate}
-                      onChange={(e) => setEditEventDate(e.target.value)}
-                    />
-                    <button type="submit">Enviar</button>
-                    <button
-                      type="button"
-                      onClick={() => setEditing({ ...editing, date: false })}
-                    >
-                      Cancelar
-                    </button>
-                  </form>
-                ) : (
-                  <>
-                    <span>{formDate(eventSelected.eventDate)}</span>
-                    <button
-                      onClick={() => {
-                        setEditEventDate(eventSelected.eventDate);
-                        setEditing({ ...editing, date: true });
-                      }}
-                    >
-                      Editar
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* LOCAL */}
-              <div>
-                {editing.location ? (
-                  <form
-                    onSubmit={(e) => {
-                      updateEvent(
-                        e,
-                        "eventLocation",
-                        editEventLocation,
-                        "location"
-                      );
-                    }}
-                  >
-                    <input
-                      type="text"
-                      value={editEventLocation}
-                      onChange={(e) => setEditEventLocation(e.target.value)}
-                    />
-                    <button type="submit">Enviar</button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        setEditing({ ...editing, location: false })
-                      }
-                    >
-                      Cancelar
-                    </button>
-                  </form>
-                ) : (
-                  <>
-                    <span>{eventSelected.eventLocation}</span>
-                    <button
-                      onClick={() => {
-                        setEditEventLocation(eventSelected.eventLocation);
-                        setEditing({ ...editing, location: true });
-                      }}
-                    >
-                      Editar
-                    </button>
-                  </>
-                )}
-              </div>
-
-              {/* LINK */}
-              <div>
-                {editing.link ? (
-                  <form
-                    onSubmit={(e) => {
-                      updateEvent(e, "eventLink", editEventLink, "link");
-                    }}
-                  >
-                    <input
-                      type="text"
-                      value={editEventLink}
-                      onChange={(e) => setEditEventLink(e.target.value)}
-                    />
-                    <button type="submit">Enviar</button>
-                    <button
-                      type="button"
-                      onClick={() => setEditing({ ...editing, link: false })}
-                    >
-                      Cancelar
-                    </button>
-                  </form>
-                ) : (
-                  <>
-                    <span>{eventSelected.eventLink}</span>
-                    <button
-                      onClick={() => {
-                        setEditEventLink(eventSelected.eventLink);
-                        setEditing({ ...editing, link: true });
-                      }}
-                    >
-                      Editar
-                    </button>
-                  </>
-                )}
-              </div>
+            <div className={style.divInputsCrud}>
+              {renderEditableField("Nome", "name", "eventName")}
+              {renderEditableField(
+                "Descrição",
+                "description",
+                "eventDescription"
+              )}
+              {renderEditableField("Data", "date", "eventDate", "date")}
+              {renderEditableField("Local", "location", "eventLocation")}
+              {renderEditableField("Link", "link", "eventLink")}
             </div>
           )}
         </>
+      ) : (
+        <h1 className={style.eventMessage}>Você não tem eventos cadastrados</h1>
       )}
     </div>
   );

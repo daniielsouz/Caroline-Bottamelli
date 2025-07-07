@@ -26,29 +26,37 @@ export default function Register() {
       })
       .catch(() => {
         setMessage("Erro ao cadastrar evento.");
+        setTypeMessage("error");
       });
   }
 
   return (
-    <div>
+    <div className={styleAdm.divEvents}>
       {message && (
         <Message type={typeMessage} onClose={() => setMessage(null)}>
           {message}
         </Message>
       )}
-      <form onSubmit={handleSubmit}>
-        <div className={styleAdm.divInputs}>
+      <form onSubmit={handleSubmit} className={style.eventsForm}>
+        <div className={style.divInputs}>
           <div>
-            <label htmlFor="eventName">Nome do evento: </label>
-            <input name="eventName" id="eventName" type="text" />
-          </div>
-          <div>
-            <label htmlFor="eventDescription">Descrição do evento: </label>
-            <textarea name="eventDescription" id="eventDescription" />
-          </div>
-          <div>
-            <label htmlFor="eventDate">Data do evento: </label>
+            <label htmlFor="eventName">Nome: </label>
             <input
+              required
+              autoFocus
+              name="eventName"
+              id="eventName"
+              type="text"
+            />
+          </div>
+          <div>
+            <label htmlFor="eventDescription">Descrição: </label>
+            <textarea required name="eventDescription" id="eventDescription" />
+          </div>
+          <div>
+            <label htmlFor="eventDate">Data: </label>
+            <input
+              required
               type="date"
               id="eventDate"
               name="eventDate"
@@ -57,11 +65,16 @@ export default function Register() {
           </div>
           <div>
             <label htmlFor="eventLocation">Localização: </label>
-            <input name="eventLocation" id="eventLocation" type="text" />
+            <input
+              required
+              name="eventLocation"
+              id="eventLocation"
+              type="text"
+            />
           </div>
           <div>
-            <label htmlFor="eventLink">Link do evento:</label>
-            <input type="text" name="eventLink" id="eventLink" />
+            <label htmlFor="eventLink">Link:</label>
+            <input required type="text" name="eventLink" id="eventLink" />
           </div>
         </div>
         <div className={style.eventButton}>

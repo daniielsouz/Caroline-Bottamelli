@@ -1,0 +1,42 @@
+.eventsForm {
+  height: 100%;
+}
+.divInputs {
+  display: flex;
+  flex-direction: column;
+  height: 90%;
+  gap: 3rem;
+}
+.divInputs div {
+  display: flex;
+  align-items: center;
+  padding: 0 2em;
+}
+
+.divInputs div label {
+  width: 7.40625rem;
+  text-align: end;
+}
+.divInputs div input,
+.divInputs div textarea {
+  width: 80%;
+  padding: 1em;
+}
+.divInputs div textarea {
+  height: 3rem;
+  resize: none;
+}
+.divInputs div input:focus,
+.divInputs div textarea:focus {
+  outline: none;
+}
+
+.eventButton button {
+  padding: 0.5em 1em;
+  border-radius: 14px;
+  border: none;
+  font-size: 1rem;
+  color: var(--color-text-Carol);
+  background-color: var(--background-color);
+  cursor: pointer;
+}

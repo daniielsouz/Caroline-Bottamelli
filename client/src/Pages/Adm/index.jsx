@@ -17,6 +17,7 @@ export default function Adm({ events }) {
   return (
     <section className={style.sectionMain}>
       <h2 className={style.sectionTitle}>Bem vinda!</h2>
+
       <div className={style.buttonsDiv}>
         <button
           className={activeTab === "crud" ? style.active : ""}
@@ -24,6 +25,7 @@ export default function Adm({ events }) {
         >
           Eventos cadastrados
         </button>
+
         <button
           className={activeTab === "register" ? style.active : ""}
           onClick={() => setActiveTab("register")}
@@ -33,11 +35,11 @@ export default function Adm({ events }) {
       </div>
 
       <div className={style.eventsCustom}>
-        {activeTab === "crud" ? <CRUD /> : <Register />}
+        {activeTab === "crud" ? <CRUD e={events} /> : <Register />}
       </div>
 
       <a className={style.return} href="/">
-        Voltar para página principal
+        <img title="Retornar" src="./img/return.svg" alt="Icone de retorno" />
       </a>
     </section>
   );

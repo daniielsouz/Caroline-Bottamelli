@@ -13,9 +13,8 @@ export default function Events({ events }) {
         <section id="Eventos" className={style.sectionEvents}>
           <div className={style.line} />
           <h3>Proximos Eventos</h3>
-
-          {events.map((e) => (
-            <div className={style.divEvents}>
+          <div className={style.divEvents}>
+            {events.map((e) => (
               <div>
                 <div className={style.eventsCard}>
                   <h2>{e.eventName}</h2>
@@ -37,13 +36,17 @@ export default function Events({ events }) {
                   </div>
                 </div>
                 <div className={style.eventLink}>
-                  <a href={e.eventLink} target="_blank">
-                    link para o evento
+                  <a
+                    title={`Inscrever-se em ${e.eventName}`}
+                    href={e.eventLink}
+                    target="_blank"
+                  >
+                    Inscrever-se
                   </a>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </section>
       )}
     </>
