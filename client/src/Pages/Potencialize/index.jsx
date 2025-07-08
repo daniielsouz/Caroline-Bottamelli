@@ -13,7 +13,7 @@ export default function Potencialize() {
         "Tenha presença nas redes sociais.",
         "Impulsione sua marca pessoal ou empresa.",
       ]}
-      video=""
+      video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1751927745/Depoimento-Fenix_1_dd24tk.mp4"
       link="https://form.respondi.app/HoCh4ZKi"
       color="#768874"
     />

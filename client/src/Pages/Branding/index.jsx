@@ -12,7 +12,7 @@ export default function Branding() {
         "Desenvolva logotipos e materiais gráficos.",
         "Fortaleça sua presença de marca.",
       ]}
-      video="https://www.exemplo.com/video.mp4"
+      video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1751927745/Depoimento-Fenix_1_dd24tk.mp4"
       link="#"
       color="#ac8485"
     />

@@ -2,7 +2,7 @@
   min-height: 100vh;
   position: relative;
   font-family: var(--font);
-  padding: 0.5rem 1rem 0.5rem 0;
+  padding: 2rem 1rem 0.5rem 0;
   background-color: var(--background-color);
 }
 .backgroundImage {
@@ -20,7 +20,11 @@
 }
 .divProduct {
   display: flex;
+  justify-content: space-between;
   padding: 1rem;
+
+  align-items: center;
+  height: 80vh;
 }
 
 .imgProduct {
@@ -30,7 +34,7 @@
 }
 
 .imgProduct img {
-  width: 300px;
+  width: 200px;
   position: relative;
   z-index: 2;
 }
@@ -54,7 +58,7 @@
 }
 
 .description h2 {
-  width: 70%;
+  width: 40vw;
   font-size: 1.5rem;
   margin-bottom: 2rem;
   font-weight: 200;

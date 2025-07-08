@@ -1,5 +1,5 @@
 .header {
-  width: 100%;
+  width: 100vw;
 }
 
 .navbar {
@@ -9,10 +9,10 @@
   transform: translate(-50%, 0);
   z-index: 1000;
   font-family: var(--font);
-  max-width: 40%;
   margin: auto;
   border-radius: 0 0 15px 15px;
   transition: background-color 0.3s ease-in-out;
+  background-color: var(--color-text-Carol-light); /* fallback */
 }
 
 .menu {
@@ -20,6 +20,7 @@
   align-items: center;
   justify-content: space-around;
   padding: 0.5em 1em 1em;
+  gap: 0.5rem;
 }
 
 .menu a {
@@ -31,6 +32,7 @@
   font-size: 12px;
   text-transform: uppercase;
   transition: border 0.5s ease-in-out;
+  white-space: nowrap;
 }
 
 .menu a:hover {
@@ -56,4 +58,23 @@
 
 .Branding {
   background-color: #ac848580;
+}
+
+/* === RESPONSIVIDADE === */
+@media (max-width: 768px) {
+  .navbar {
+    left: 50%;
+    flex-wrap: nowrap;
+  }
+
+  .menu a {
+    font-size: 12px;
+    padding: 0.5rem 0;
+    border: none;
+  }
+
+  .menu a:hover {
+    border: none;
+    text-decoration: underline;
+  }
 }
