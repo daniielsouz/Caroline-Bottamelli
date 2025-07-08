@@ -12,7 +12,7 @@
   margin: auto;
   border-radius: 0 0 15px 15px;
   transition: background-color 0.3s ease-in-out;
-  background-color: var(--color-text-Carol-light); /* fallback */
+  background-color: var(--color-text-Carol-light);
 }
 
 .menu {
@@ -75,5 +75,10 @@
   .menu a:hover {
     border: none;
     text-decoration: underline;
+  }
+}
+@media (max-width: 500px) {
+  .menu a {
+    font-size: 10px;
   }
 }
