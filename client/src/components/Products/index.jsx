@@ -14,7 +14,6 @@ export default function Products({
   const videoRef = useRef(null);
   const logoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [lineWidth, setLineWidth] = useState("100%");
 
   const togglePlay = () => {
     const currentVideo = videoRef.current;
@@ -49,13 +48,6 @@ export default function Products({
     };
   }, []);
 
-  useEffect(() => {
-    if (logoRef.current) {
-      const logoOffset = logoRef.current.offsetLeft;
-      setLineWidth(`calc(${logoOffset}px - 1%)`);
-    }
-  }, []);
-
   return (
     <section id={id} className={style.productSection} style={{ color: color }}>
       <div
@@ -64,10 +56,7 @@ export default function Products({
       />
 
       <div className={style.imgProduct}>
-        <div
-          className={style.line}
-          style={{ backgroundColor: color, width: lineWidth }}
-        />
+        <div className={style.line} style={{ backgroundColor: color }} />
         <img ref={logoRef} src={logo} alt="Logo serviço" />
       </div>
       <div className={style.divProduct}>
