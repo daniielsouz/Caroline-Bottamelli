@@ -60,7 +60,6 @@
   background-color: #ac848580;
 }
 
-/* === RESPONSIVIDADE === */
 @media (max-width: 768px) {
   .navbar {
     left: 50%;
