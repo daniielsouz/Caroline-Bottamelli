@@ -6,12 +6,12 @@ export default function Products({
   logo = "",
   logotipo = "",
   description = [],
+  poster = "",
   video = "",
   link = "",
   color = "",
 }) {
   const videoRef = useRef(null);
-  const logoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const togglePlay = () => {
@@ -48,7 +48,7 @@ export default function Products({
   }, []);
 
   return (
-    <section id={id} className={style.productSection} style={{ color: color }}>
+    <section id={id} className={style.productSection} style={{ color }}>
       <div
         className={style.backgroundImage}
         style={{ backgroundImage: `url(${logotipo})` }}
@@ -56,48 +56,54 @@ export default function Products({
 
       <div className={style.imgProduct}>
         <div className={style.line} style={{ backgroundColor: color }} />
-        <img ref={logoRef} src={logo} alt="Logo serviço" />
+        <img src={logo} alt="Logo serviço" />
       </div>
+
       <div className={style.divProduct}>
         <div className={style.description}>
-          {description.map((i, index) => (
-            <h2 key={index}>{i}</h2>
+          {description.map((text, i) => (
+            <h2 key={i}>{text}</h2>
           ))}
         </div>
 
         <div className={style.videoLink}>
           <div className={style.videoWrapper} onClick={togglePlay}>
             <video
-              style={{ border: `3px ${color} solid` }}
               ref={videoRef}
               src={video}
-              playsInline
-              preload="metadata"
+              poster={poster}
               className={style.customVideo}
+              preload="metadata"
+              playsInline
+              style={{ border: `3px ${color} solid` }}
             />
             {!isPlaying && (
-              <button
-                className={style.playButton}
-                style={{ color: color, borderColor: color }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  togglePlay();
-                }}
-              >
-                ▶
-              </button>
+              <>
+                <div className={style.overlayText}>
+                  Ouça depoimentos de quem teve sua vida transformada
+                </div>
+                <button
+                  className={style.playButton}
+                  style={{ color, borderColor: color }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    togglePlay();
+                  }}
+                >
+                  ▶
+                </button>
+              </>
             )}
           </div>
-          <div>
-            <a
-              style={{ backgroundColor: color }}
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Quero participar!
-            </a>
-          </div>
+
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ backgroundColor: color }}
+          >
+            Quero participar!
+          </a>
         </div>
       </div>
     </section>

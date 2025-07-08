@@ -5,6 +5,7 @@
   padding: 2rem 1rem 0 0;
   background-color: var(--background-color);
 }
+
 .backgroundImage {
   position: absolute;
   top: 10%;
@@ -18,11 +19,11 @@
   z-index: 0;
   pointer-events: none;
 }
+
 .divProduct {
   display: flex;
   justify-content: space-between;
   padding: 1rem;
-
   align-items: center;
   height: 80vh;
 }
@@ -72,14 +73,35 @@
   gap: 50px;
   position: relative;
 }
-.videoWrapper {
-  text-align: center;
-}
-.videoLink video {
-  width: 50%;
 
-  object-fit: cover;
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
   cursor: pointer;
+}
+
+.customVideo {
+  width: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.overlayText {
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  text-align: center;
+  z-index: 2;
+  pointer-events: none;
+  width: 90%;
+  height: 90%;
 }
 
 .playButton {
@@ -88,7 +110,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: transparent;
-  border: none;
+  border: 2px solid;
   font-size: 2rem;
   width: 60px;
   height: 60px;
@@ -96,14 +118,8 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: opacity 0.3s ease;
   z-index: 3;
   color: inherit;
-}
-
-.fadeOut {
-  opacity: 0;
-  pointer-events: none;
 }
 
 .videoLink a {
@@ -154,9 +170,13 @@
     margin-bottom: 1rem;
   }
 
-  .videoLink video {
-    width: 100%;
+  .customVideo {
     max-width: 320px;
+  }
+
+  .overlayText {
+    font-size: 0.9rem;
+    padding: 0.5rem;
   }
 
   .playButton {
