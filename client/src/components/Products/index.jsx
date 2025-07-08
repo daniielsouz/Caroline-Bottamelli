@@ -6,7 +6,6 @@ export default function Products({
   logo = "",
   logotipo = "",
   description = [],
-  poster = "",
   video = "",
   link = "",
   color = "",
@@ -72,7 +71,6 @@ export default function Products({
               style={{ border: `3px ${color} solid` }}
               ref={videoRef}
               src={video}
-              poster={poster}
               playsInline
               preload="metadata"
               className={style.customVideo}
