@@ -25,6 +25,7 @@ export default function Products({
     });
 
     if (currentVideo.paused) {
+      currentVideo.muted = false; // libera áudio ao tocar
       currentVideo.play();
     } else {
       currentVideo.pause();
@@ -34,6 +35,9 @@ export default function Products({
   useEffect(() => {
     const vid = videoRef.current;
     if (!vid) return;
+
+    // Inicializa o vídeo mudo para mostrar o frame sem tocar som
+    vid.muted = true;
 
     const handlePause = () => setIsPlaying(false);
     const handlePlay = () => setIsPlaying(true);
@@ -73,7 +77,7 @@ export default function Products({
               src={video}
               poster={poster}
               className={style.customVideo}
-              preload="metadata"
+              preload="auto"
               playsInline
               style={{ border: `3px ${color} solid` }}
             />
