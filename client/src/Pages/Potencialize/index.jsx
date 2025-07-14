@@ -9,9 +9,16 @@ export default function Potencialize() {
       logo={ImgPotencialize}
       logotipo={logotipoPotencialize}
       description={[
-        "Aumente seu alcance digital.",
-        "Tenha presença nas redes sociais.",
-        "Impulsione sua marca pessoal ou empresa.",
+        <>
+          É o programa que vai transformar o seu negócio em uma{" "}
+          <strong>marca desejada</strong> e <strong>reconhecida</strong>,
+          alinhando estratégias práticas à sua essência.
+        </>,
+        <>Aulas gravadas e acesso por um ano.</>,
+        <>
+          Aprenda a criar narrativas que conversem e{" "}
+          <strong>criar a sua comunidade</strong>.
+        </>,
       ]}
       video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1751927745/Depoimento-Fenix_1_dd24tk.mp4"
       link="https://form.respondi.app/HoCh4ZKi"
