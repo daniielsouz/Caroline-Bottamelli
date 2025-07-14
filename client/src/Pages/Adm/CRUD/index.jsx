@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Message from "./../../../components/Message";
 import styleAdm from "./../index.module.css";
 import style from "./index.module.css";
+import { getToken } from "../../../utils/token";
 
 export default function CRUD() {
   const [events, setEvents] = useState([]);
@@ -52,9 +53,14 @@ export default function CRUD() {
       return;
     }
 
+    const token = getToken();
+
     fetch(`${apiUrl}/event/${eventSelected._id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify({ [mongoField]: newValue }),
     })
       .then((res) => res.json())
@@ -75,7 +81,14 @@ export default function CRUD() {
   function handleDeleteEvent(id) {
     if (!confirm("Tem certeza que deseja excluir este evento?")) return;
 
-    fetch(`${apiUrl}/event/deleteEvent/${id}`, { method: "DELETE" })
+    const token = getToken();
+
+    fetch(`${apiUrl}/event/deleteEvent/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then(() => {
         setMessage({ type: "success", text: "Evento excluído com sucesso." });
         setTimeout(() => {

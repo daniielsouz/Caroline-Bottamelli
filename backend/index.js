@@ -1,13 +1,42 @@
 require("dotenv").config();
 const express = require("express");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
+const mongoose = require("mongoose");
+
 const app = express();
+app.use(cors());
 app.use(express.json());
 
-const cors = require("cors");
-app.use(cors());
+const USER = {
+  user: process.env.USER,
+  password: process.env.PASSWORD,
+};
 
-const db = require("mongoose");
-const { default: mongoose } = require("mongoose");
+app.post("/login", (req, res) => {
+  const { user, password } = req.body;
+
+  if (user === USER.user && password === USER.password) {
+    const token = jwt.sign({ user }, process.env.JWT_SECRET);
+
+    return res.json({ token });
+  }
+
+  return res.status(401).json({ error: "Credenciais inválidas" });
+});
+
+function authenticateToken(req, res, next) {
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 
 const eventSchema = new mongoose.Schema({
   eventName: String,
@@ -16,16 +45,13 @@ const eventSchema = new mongoose.Schema({
   eventLocation: String,
   eventLink: String,
 });
-
 const Event = mongoose.model("Event", eventSchema);
 
-db.connect(process.env.MONGO_URL)
-  .then(() => {
-    console.log("Conexão estabelecida");
-  })
-  .catch((err) => {
-    console.error("erro ao conectar", err);
-  });
+mongoose
+  .connect(process.env.MONGO_URL)
+  .then(() => console.log("Conexão estabelecida"))
+  .catch((err) => console.error("Erro ao conectar", err));
+
 app.get("/events", async (req, res) => {
   try {
     const events = await Event.find();
@@ -36,39 +62,45 @@ app.get("/events", async (req, res) => {
   }
 });
 
-app.post("/eventRegister", async (requisicao, resposta) => {
+app.get("/adm", authenticateToken, async (req, res) => {
   try {
-    const newEvent = new Event(requisicao.body);
-    await newEvent.save();
-
-    resposta.send("Salvo com sucesso");
+    const events = await Event.find();
+    res.json(events);
   } catch (err) {
-    console.error("Deu merda", err);
+    console.error("Erro ao buscar eventos:", err);
+    res.status(500).send("Erro ao buscar eventos");
   }
 });
 
-app.put("/event/:id", async (req, res) => {
-  const { id } = req.params;
-  const updates = req.body;
+app.post("/eventRegister", authenticateToken, async (req, res) => {
   try {
-    const updateEvent = await Event.findByIdAndUpdate(id, updates, {
-      new: true,
-    });
-    res.json(updateEvent);
-  } catch {
-    (err) => {
-      console.error(err);
-    };
+    const newEvent = new Event(req.body);
+    await newEvent.save();
+    res.send("Salvo com sucesso");
+  } catch (err) {
+    console.error("Erro ao salvar", err);
+    res.status(500).send("Erro ao salvar");
   }
 });
 
-app.delete("/event/deleteEvent/:id", async (req, res) => {
+app.put("/event/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updated = await Event.findByIdAndUpdate(id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    console.error("Erro ao atualizar", err);
+    res.status(500).send("Erro ao atualizar");
+  }
+});
+
+app.delete("/event/deleteEvent/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   try {
     await Event.findByIdAndDelete(id);
-    res.json("Evento excluido");
+    res.send("Evento excluído com sucesso");
   } catch (err) {
-    res.json("Houve um problema ao excluir o projeto");
+    res.status(500).send("Erro ao excluir o evento");
   }
 });
 

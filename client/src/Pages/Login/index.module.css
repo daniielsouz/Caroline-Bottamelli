@@ -1,0 +1,79 @@
+.login {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--background-color);
+}
+.form {
+  width: 360px;
+  margin: 3rem auto;
+  padding: 2.5rem 2rem;
+  background-color: var(--background-color, #fffcf6);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(1, 61, 97, 0.1);
+  font-family: var(--font, "Poppins", sans-serif);
+  color: var(--color-text-Carol, #013d61);
+}
+
+.form div {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.label {
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--color-text-Carol, #013d61);
+}
+
+.input {
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1.8px solid var(--color-text-Carol-light, rgba(1, 61, 97, 0.3));
+  border-radius: 8px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  background-color: #fff;
+  outline-offset: 2px;
+  color: var(--color-text-Carol, #013d61);
+}
+
+.input::placeholder {
+  color: var(--color-text-Carol-light, rgba(1, 61, 97, 0.3));
+}
+
+.input:focus {
+  border-color: var(--color-text-Carol, #013d61);
+  box-shadow: 0 0 8px rgba(1, 61, 97, 0.3);
+  outline: none;
+}
+
+.button {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  background: var(--color-text-Carol, #013d61);
+  border: none;
+  border-radius: 8px;
+  color: #fffcf6;
+  font-weight: 700;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  box-shadow: 0 4px 15px rgba(1, 61, 97, 0.4);
+}
+
+.button:hover {
+  background: rgba(1, 61, 97, 0.8);
+}
+
+.error {
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  color: #d93025;
+  font-weight: 600;
+  text-align: center;
+}

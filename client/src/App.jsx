@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import About from "./Pages/About";
@@ -6,7 +6,9 @@ import Events from "./Pages/Events";
 import Potencialize from "./Pages/Potencialize";
 import Fenix from "./Pages/Fenix";
 import Branding from "./Pages/Branding";
-import Adm from "./Pages/Adm/index";
+import Adm from "./Pages/Adm";
+import Login from "./Pages/Login";
+import PrivateRoute from "./components/PrivateRoute";
 
 function MainPage({ events }) {
   return (
@@ -21,7 +23,8 @@ function MainPage({ events }) {
   );
 }
 
-function AppRoutes() {
+function AppRoutesWrapper() {
+  const navigate = useNavigate();
   const [events, setEvents] = useState([]);
 
   useEffect(() => {
@@ -32,9 +35,24 @@ function AppRoutes() {
       .catch((err) => console.log("Erro ao buscar eventos", err));
   }, []);
 
+  function onLoginSuccess() {
+    navigate("/adm");
+  }
+
   return (
     <Routes>
-      <Route path="/adm" element={<Adm events={events} />} />
+      <Route
+        path="/login"
+        element={<Login onLoginSuccess={onLoginSuccess} />}
+      />
+      <Route
+        path="/adm"
+        element={
+          <PrivateRoute>
+            <Adm events={events} />
+          </PrivateRoute>
+        }
+      />
       <Route path="*" element={<MainPage events={events} />} />
     </Routes>
   );
@@ -43,7 +61,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <BrowserRouter>
-      <AppRoutes />
+      <AppRoutesWrapper />
     </BrowserRouter>
   );
 }

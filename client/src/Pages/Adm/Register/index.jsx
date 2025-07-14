@@ -2,6 +2,7 @@ import { useState } from "react";
 import style from "./index.module.css";
 import styleAdm from "./../index.module.css";
 import Message from "../../../components/Message";
+import { getToken } from "../../../utils/token";
 
 export default function Register() {
   const [message, setMessage] = useState(null);
@@ -13,12 +14,20 @@ export default function Register() {
     const data = Object.fromEntries(formData.entries());
     const apiUrl = import.meta.env.VITE_API_URL;
 
+    const token = getToken();
+
     fetch(`${apiUrl}/eventRegister`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(data),
     })
-      .then((res) => res.text())
+      .then((res) => {
+        if (!res.ok) throw new Error("Erro na requisição");
+        return res.text();
+      })
       .then((msg) => {
         e.target.reset();
         setMessage(msg);
