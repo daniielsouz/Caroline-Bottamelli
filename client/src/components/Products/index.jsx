@@ -58,13 +58,13 @@ export default function Products({
         style={{ backgroundImage: `url(${logotipo})` }}
       />
 
-      <div className={style.imgProduct}>
-        <div className={style.line} style={{ backgroundColor: color }} />
-        <img src={logo} alt="Logo serviço" />
-      </div>
+      <div className={style.line} style={{ backgroundColor: color }} />
 
       <div className={style.divProduct}>
         <div className={style.description}>
+          <div className={style.productLogo}>
+            <img src={logo} alt="Logo serviço" />
+          </div>
           {description.map((text, i) => (
             <h2 key={i}>{text}</h2>
           ))}

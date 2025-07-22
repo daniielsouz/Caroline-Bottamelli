@@ -27,27 +27,23 @@
   margin-top: 2em;
 }
 
-.imgProduct {
-  grid-column: span 2;
-  position: relative;
-  text-align: right;
+.productLogo {
+  width: 100%;
+  margin-bottom: 4em;
 }
-
-.imgProduct img {
-  width: 200px;
-  position: relative;
-  z-index: 2;
+.productLogo img {
+  width: 300px;
 }
 
 .line {
   position: absolute;
-  top: 50%;
+  top: 6%;
   left: 0;
   height: 1px;
   transform: translateY(-50%);
   z-index: 1;
   background-color: var(--color-text-Carol);
-  width: 85%;
+  width: 50%;
 }
 
 .description {
