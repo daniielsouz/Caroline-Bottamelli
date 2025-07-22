@@ -17,7 +17,7 @@ export default function Fenix() {
         <>
           Você terá acesso a uma estrutura completa de aulas e ao meu{" "}
           acompanhamento, além de um{" "}
-          <strong>grupo para network poderoso</strong>!
+          <strong>grupo para network poderoso</strong>.
         </>,
       ]}
       video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1751927745/Depoimento-Fenix_1_dd24tk.mp4"
