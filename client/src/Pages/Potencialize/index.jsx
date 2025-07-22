@@ -16,7 +16,7 @@ export default function Potencialize() {
         </>,
         <>Aulas gravadas e acesso por um ano.</>,
         <>
-          Aprenda a criar narrativas que conversem e{" "}
+          Aprenda a criar narrativas que convertem e{" "}
           <strong>criar a sua comunidade</strong>.
         </>,
       ]}
