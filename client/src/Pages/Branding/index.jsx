@@ -21,7 +21,7 @@ export default function Branding() {
           compra.
         </>,
       ]}
-      video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1751927745/Depoimento-Fenix_1_dd24tk.mp4"
+      video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1234567890/video-branding_1_ndoltf.mp4"
       link="https://form.respondi.app/XjXrsB9L"
       color="#ac8485"
     />

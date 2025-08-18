@@ -20,7 +20,7 @@ export default function Potencialize() {
           <strong>criar a sua comunidade</strong>.
         </>,
       ]}
-      video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1751927745/Depoimento-Fenix_1_dd24tk.mp4"
+      video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1234567890/video-potencialize_g1pcbe.mp4"
       link="https://form.respondi.app/HoCh4ZKi"
       color="#768874"
     />
