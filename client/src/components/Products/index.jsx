@@ -25,7 +25,7 @@ export default function Products({
     });
 
     if (currentVideo.paused) {
-      currentVideo.muted = false; // libera áudio ao tocar
+      currentVideo.muted = false;
       currentVideo.play();
     } else {
       currentVideo.pause();
@@ -36,7 +36,6 @@ export default function Products({
     const vid = videoRef.current;
     if (!vid) return;
 
-    // Inicializa o vídeo mudo para mostrar o frame sem tocar som
     vid.muted = true;
 
     const handlePause = () => setIsPlaying(false);
