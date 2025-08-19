@@ -26,10 +26,26 @@ export default function Header({ events }) {
   }, []);
 
   const scrollToSection = (id) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const navbarHeight = document.querySelector("header").offsetHeight;
+    const targetPosition =
+      target.getBoundingClientRect().top + window.scrollY - navbarHeight;
+    const startPosition = window.scrollY;
+    const distance = targetPosition - startPosition;
+    const duration = 600;
+    let start = null;
+
+    const step = (timestamp) => {
+      if (!start) start = timestamp;
+      const progress = timestamp - start;
+      const ease = (t) => (t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t);
+      window.scrollTo(0, startPosition + distance * ease(progress / duration));
+      if (progress < duration) requestAnimationFrame(step);
+    };
+
+    requestAnimationFrame(step);
   };
 
   return (
