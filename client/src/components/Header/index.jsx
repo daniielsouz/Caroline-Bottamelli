@@ -111,6 +111,17 @@ export default function Header({ events }) {
           </li>
         </ul>
       </nav>
+      <a
+        className={style.linkInsta}
+        href="https://www.instagram.com/carolbottamelli?igsh=MTB3a2Z0ZWxsY2Vxaw=="
+        target="__blanc"
+      >
+        <img
+          src="img/icon-instagram.svg"
+          alt="Icone instagram"
+          title="Me acompanhe no instagram"
+        />
+      </a>
     </header>
   );
 }

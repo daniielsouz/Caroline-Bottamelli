@@ -73,11 +73,11 @@
 
 .divLine {
   position: absolute;
-  top: -20%;
+  top: -30vh;
   right: 9%;
   background-color: var(--color-text-Carol);
   width: 1px;
-  height: 90%;
+  height: 100vh;
   color: var(--color-text-Carol);
 }
 .textIntro {
@@ -128,6 +128,17 @@
     width: 100%;
     max-width: 300px;
   }
+  .aboutIntro {
+    min-height: 70vh;
+    padding: 0 10% 0 40%;
+  }
+  .textIntro {
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+  }
+  .divLine {
+    display: none;
+  }
 }
 
 @media (max-width: 500px) {
@@ -136,7 +147,8 @@
     margin-top: 2rem;
   }
   .aboutText h2,
-  .aboutText p {
+  .aboutText p,
+  .textIntro {
     font-size: 0.8rem;
   }
 }

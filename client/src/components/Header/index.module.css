@@ -1,5 +1,7 @@
 .header {
   width: 100vw;
+  background-color: var(--background-color);
+  position: relative;
 }
 
 .navbar {
@@ -58,6 +60,21 @@
 
 .Branding {
   background-color: #ac848580;
+}
+.linkInsta {
+  position: fixed;
+  bottom: 1%;
+  right: 1%;
+  z-index: 2;
+  opacity: 50%;
+  transition: 0.3s ease-in-out;
+}
+
+.linkInsta img {
+  width: 40px;
+}
+.linkInsta:hover {
+  opacity: 100%;
 }
 
 @media (max-width: 768px) {
