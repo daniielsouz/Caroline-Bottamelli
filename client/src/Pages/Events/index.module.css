@@ -54,14 +54,26 @@
 .eventsCardOnline {
   background-color: #543939;
 }
+.eventsCardOnline:focus {
+  background-color: var(--background-color);
+  color: #543939;
+  border: 1px solid #543939;
+}
+
 .eventsCardPresencial {
   background-color: var(--color-text-Carol);
+}
+
+.eventsCardPresencial:focus {
+  background-color: var(--background-color);
+  color: var(--color-text-Carol);
+  border: 1px solid var(--color-text-Carol);
 }
 .buttonlocation {
   font-size: 18px;
   color: var(--background-color);
   padding: 1em;
-  border: none;
+  border: 1px solid var(--color-text-Carol);
   min-width: 10rem;
   cursor: pointer;
 }
