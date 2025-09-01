@@ -34,10 +34,13 @@ export default function About() {
           <br />
           Pensamos em cada fase para oferecer <strong>apoio</strong>,{" "}
           <strong>clareza</strong> e ferramentas certas para o seu momento,
-          respeitando seu ritmo e potencial. Aqui, cada passo é um convite para{" "}
-          crescer com <strong className={style.focus}>segurança</strong>,{" "}
-          <strong className={style.focus}>confiança</strong> e{" "}
-          <strong className={style.focus}>propósito</strong>.
+          respeitando seu ritmo e potencial.
+          <br />
+          <br />
+          Aqui, cada passo é um convite para crescer com{" "}
+          <strong className={style.focus}>direção</strong>,{" "}
+          <strong className={style.focus}>estratégia</strong> e{" "}
+          <strong className={style.focus}>essência</strong>.
         </p>
       </section>
     </>

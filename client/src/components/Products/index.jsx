@@ -9,6 +9,7 @@ export default function Products({
   poster = "",
   video = "",
   link = "",
+  legend = "",
   color = "",
 }) {
   const videoRef = useRef(null);
@@ -82,9 +83,6 @@ export default function Products({
             />
             {!isPlaying && (
               <>
-                <div className={style.overlayText}>
-                  Ouça depoimentos de quem teve sua vida transformada
-                </div>
                 <button
                   className={style.playButton}
                   style={{ color, borderColor: color }}
@@ -105,7 +103,7 @@ export default function Products({
             rel="noopener noreferrer"
             style={{ backgroundColor: color }}
           >
-            Quero participar!
+            {legend}
           </a>
         </div>
       </div>

@@ -8,6 +8,7 @@
   font-family: var(--font);
   padding: 4em 0;
 }
+
 .line {
   position: absolute;
   top: 0;
@@ -25,6 +26,7 @@
   font-size: 2em;
   font-weight: 200;
   color: var(--color-text-Carol);
+  margin-bottom: 1.5rem;
 }
 
 .divEvents {
@@ -33,11 +35,11 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: 2em;
+  min-height: 50vh;
 }
 
 .eventsCard {
   margin-top: 2em;
-  background-color: var(--color-text-Carol);
   position: relative;
   padding: 1em;
   max-width: 500px;
@@ -46,6 +48,47 @@
   border-radius: 24px;
   color: var(--background-color);
   font-weight: 200;
+  transition: 0.3s ease-in-out;
+}
+
+.eventsCardOnline {
+  background-color: #543939;
+}
+.eventsCardPresencial {
+  background-color: var(--color-text-Carol);
+}
+.buttonlocation {
+  font-size: 18px;
+  color: var(--background-color);
+  padding: 1em;
+  border: none;
+  min-width: 10rem;
+  cursor: pointer;
+}
+.buttonlocation:hover {
+  opacity: 85%;
+}
+.eventLink {
+  border-radius: 10px;
+}
+.eventLink a {
+  display: block;
+  margin: 2em 0;
+  text-decoration: none;
+  color: var(--background-color);
+  padding: 1em;
+  border-radius: 24px;
+  text-transform: capitalize;
+  letter-spacing: 2px;
+  transition: 0.3s ease-in-out;
+}
+
+.buttonlocation:first-child {
+  border-radius: 14px 0 0 24px;
+}
+
+.buttonlocation:last-child {
+  border-radius: 0 24px 14px 0;
 }
 
 .eventsCard h2 {
@@ -61,22 +104,26 @@
   height: 80%;
   text-align: justify;
 }
+
 .eventInfos {
   width: 100%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
+
 .eventInfos div {
   display: flex;
   justify-content: start;
   align-items: center;
   gap: 10%;
 }
+
 .eventInfos span {
   font-size: 12px;
   text-align: start;
 }
+
 .eventInfos img {
   width: 18px;
 }
@@ -88,6 +135,7 @@
   transform: translateY(-50%);
   opacity: 0.1;
 }
+
 .logoCarol img {
   width: inherit;
 }
@@ -97,12 +145,19 @@
   margin: 2em 0;
   text-decoration: none;
   color: var(--background-color);
-  background-color: var(--color-text-Carol);
   padding: 1em;
   border-radius: 24px;
   text-transform: capitalize;
   letter-spacing: 2px;
   transition: 0.3s ease-in-out;
+}
+
+.infoEvent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  font-size: 18px;
 }
 
 @media (max-width: 768px) {

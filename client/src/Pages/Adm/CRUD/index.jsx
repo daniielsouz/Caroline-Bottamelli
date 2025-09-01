@@ -34,7 +34,11 @@ export default function CRUD() {
   }, []);
 
   function formDate(date) {
-    const [year, month, day] = date.split("-");
+    if (!date) return "";
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
     return `${day}/${month}/${year}`;
   }
 
@@ -47,8 +51,21 @@ export default function CRUD() {
       return;
     }
 
-    const currentValue = eventSelected[mongoField];
-    if (newValue === currentValue) {
+    let updatedValue = newValue;
+    if (mongoField === "eventDate") {
+      updatedValue = new Date(newValue); // converte para Date
+    }
+
+    const currentValue =
+      mongoField === "eventDate"
+        ? new Date(eventSelected[mongoField]).toISOString()
+        : eventSelected[mongoField];
+
+    if (
+      mongoField === "eventDate"
+        ? updatedValue.toISOString() === currentValue
+        : updatedValue === currentValue
+    ) {
       setMessage({ type: "info", text: "O valor não foi alterado." });
       return;
     }
@@ -61,7 +78,7 @@ export default function CRUD() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ [mongoField]: newValue }),
+      body: JSON.stringify({ [mongoField]: updatedValue }),
     })
       .then((res) => res.json())
       .then((update) => {
@@ -102,8 +119,11 @@ export default function CRUD() {
 
   function renderEditableField(label, field, mongoField, type = "text") {
     const isEditing = editing[field];
+
     const value =
-      type === "date" && !isEditing
+      type === "date" && isEditing
+        ? new Date(eventSelected[mongoField]).toISOString().split("T")[0]
+        : type === "date"
         ? formDate(eventSelected[mongoField])
         : eventSelected[mongoField];
 

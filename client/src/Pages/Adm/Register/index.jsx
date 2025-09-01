@@ -7,29 +7,35 @@ import { getToken } from "../../../utils/token";
 export default function Register() {
   const [message, setMessage] = useState(null);
   const [typeMessage, setTypeMessage] = useState("");
+  const [isOnline, setIsOnline] = useState(false);
+  const [location, setLocation] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData.entries());
-    const apiUrl = import.meta.env.VITE_API_URL;
 
-    const token = getToken();
+    // Define a localização corretamente
+    data.eventLocation = isOnline ? "Online" : location;
 
-    fetch(`${apiUrl}/eventRegister`, {
+    if (data.eventDate) data.eventDate = new Date(data.eventDate + "T00:00:00");
+
+    fetch(`${import.meta.env.VITE_API_URL}/eventRegister`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${getToken()}`,
       },
       body: JSON.stringify(data),
     })
       .then((res) => {
-        if (!res.ok) throw new Error("Erro na requisição");
+        if (!res.ok) throw new Error();
         return res.text();
       })
       .then((msg) => {
         e.target.reset();
+        setIsOnline(false);
+        setLocation("");
         setMessage(msg);
         setTypeMessage("success");
       })
@@ -49,43 +55,54 @@ export default function Register() {
       <form onSubmit={handleSubmit} className={style.eventsForm}>
         <div className={style.divInputs}>
           <div>
-            <label htmlFor="eventName">Nome: </label>
-            <input
-              required
-              autoFocus
-              name="eventName"
-              id="eventName"
-              type="text"
-            />
+            <label>Nome:</label>
+            <input required autoFocus name="eventName" type="text" />
           </div>
+
           <div>
-            <label htmlFor="eventDescription">Descrição: </label>
-            <textarea required name="eventDescription" id="eventDescription" />
+            <label>Descrição:</label>
+            <textarea required name="eventDescription" />
           </div>
+
           <div>
-            <label htmlFor="eventDate">Data: </label>
+            <label>Data:</label>
             <input
               required
               type="date"
-              id="eventDate"
               name="eventDate"
               min={new Date().toISOString().split("T")[0]}
             />
           </div>
+
           <div>
-            <label htmlFor="eventLocation">Localização: </label>
-            <input
-              required
-              name="eventLocation"
-              id="eventLocation"
-              type="text"
-            />
+            <label>Localização:</label>
+            <div className={style.inputLocation}>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={isOnline}
+                  onChange={(e) => setIsOnline(e.target.checked)}
+                />{" "}
+                Online
+              </label>
+
+              <input
+                required
+                type="text"
+                placeholder="Informe o local"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                disabled={isOnline}
+              />
+            </div>
           </div>
+
           <div>
-            <label htmlFor="eventLink">Link:</label>
-            <input required type="text" name="eventLink" id="eventLink" />
+            <label>Link:</label>
+            <input required type="text" name="eventLink" />
           </div>
         </div>
+
         <div className={style.eventButton}>
           <button type="submit">Cadastrar evento</button>
         </div>

@@ -6,6 +6,7 @@ import Events from "./Pages/Events";
 import Potencialize from "./Pages/Potencialize";
 import Fenix from "./Pages/Fenix";
 import Branding from "./Pages/Branding";
+import Footer from "./components/Footer";
 import Adm from "./Pages/Adm";
 import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
@@ -19,6 +20,7 @@ function MainPage({ events }) {
       <Potencialize />
       <Fenix />
       <Branding />
+      <Footer />
     </>
   );
 }

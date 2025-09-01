@@ -21,6 +21,7 @@ export default function Fenix() {
         </>,
       ]}
       video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1751927745/Depoimento-Fenix_1_dd24tk.mp4"
+      legend="Quero fazer minha aplicação!"
       link="https://form.respondi.app/5A36eZ9j"
       color="#543939"
     />

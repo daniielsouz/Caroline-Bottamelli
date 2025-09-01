@@ -21,7 +21,8 @@ export default function Potencialize() {
         </>,
       ]}
       video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1234567890/video-potencialize_g1pcbe.mp4"
-      link="https://form.respondi.app/HoCh4ZKi"
+      legend="Seu acesso aqui!"
+      link="https://pay.kiwify.com.br/aXZd54e"
       color="#768874"
     />
   );

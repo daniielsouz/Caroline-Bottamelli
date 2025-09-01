@@ -40,3 +40,15 @@
   background-color: var(--background-color);
   cursor: pointer;
 }
+
+.inputLocation input[type="checkbox"] {
+  border-radius: 14px;
+  accent-color: #09ff00;
+}
+
+.inputLocation label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
