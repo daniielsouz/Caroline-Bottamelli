@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Message from "./../../../components/Message";
 import styleAdm from "./../index.module.css";
 import style from "./index.module.css";
 import { getToken } from "../../../utils/token";
 
-export default function CRUD() {
-  const [events, setEvents] = useState([]);
+export default function CRUD({ events = [] }) {
   const [eventSelected, setEventSelected] = useState(null);
   const [editing, setEditing] = useState({
     name: false,
@@ -26,13 +25,6 @@ export default function CRUD() {
 
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  useEffect(() => {
-    fetch(`${apiUrl}/events`)
-      .then((res) => res.json())
-      .then((data) => setEvents(data))
-      .catch((err) => console.log(err));
-  }, []);
-
   function formDate(date) {
     if (!date) return "";
     const d = new Date(date);
@@ -44,17 +36,16 @@ export default function CRUD() {
 
   function updateEvent(e, field, mongoField) {
     e.preventDefault();
-    const newValue = editValues[field]?.trim();
+    if (!eventSelected) return;
 
+    const newValue = editValues[field]?.trim();
     if (!newValue) {
       setMessage({ type: "info", text: "O campo não pode estar vazio." });
       return;
     }
 
     let updatedValue = newValue;
-    if (mongoField === "eventDate") {
-      updatedValue = new Date(newValue); // converte para Date
-    }
+    if (mongoField === "eventDate") updatedValue = new Date(newValue);
 
     const currentValue =
       mongoField === "eventDate"
@@ -71,7 +62,6 @@ export default function CRUD() {
     }
 
     const token = getToken();
-
     fetch(`${apiUrl}/event/${eventSelected._id}`, {
       method: "PUT",
       headers: {
@@ -85,7 +75,6 @@ export default function CRUD() {
         const updatedList = events.map((ev) =>
           ev._id === update._id ? update : ev
         );
-        setEvents(updatedList);
         setEventSelected(update);
         setEditing({ ...editing, [field]: false });
         setMessage({ type: "success", text: "Salvo com sucesso." });
@@ -99,7 +88,6 @@ export default function CRUD() {
     if (!confirm("Tem certeza que deseja excluir este evento?")) return;
 
     const token = getToken();
-
     fetch(`${apiUrl}/event/deleteEvent/${id}`, {
       method: "DELETE",
       headers: {
@@ -108,9 +96,7 @@ export default function CRUD() {
     })
       .then(() => {
         setMessage({ type: "success", text: "Evento excluído com sucesso." });
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        setTimeout(() => window.location.reload(), 2000);
       })
       .catch(() =>
         setMessage({ type: "error", text: "Erro ao excluir o evento." })
@@ -118,8 +104,9 @@ export default function CRUD() {
   }
 
   function renderEditableField(label, field, mongoField, type = "text") {
-    const isEditing = editing[field];
+    if (!eventSelected) return null;
 
+    const isEditing = editing[field];
     const value =
       type === "date" && isEditing
         ? new Date(eventSelected[mongoField]).toISOString().split("T")[0]
@@ -227,7 +214,7 @@ export default function CRUD() {
         </Message>
       )}
 
-      {events.length > 0 ? (
+      {events && events.length > 0 ? (
         <>
           <select
             className={style.eventSelected}
@@ -236,7 +223,7 @@ export default function CRUD() {
             value={selectedEventId}
             onChange={(e) => {
               const idSelected = e.target.value;
-              const selectedEvent = events.find((e) => e._id === idSelected);
+              const selectedEvent = events.find((ev) => ev._id === idSelected);
               setEventSelected(selectedEvent);
               setSelectedEventId(idSelected);
             }}

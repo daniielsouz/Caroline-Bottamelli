@@ -3,11 +3,11 @@ import style from "./index.module.css";
 import Register from "./Register";
 import CRUD from "./CRUD";
 
-export default function Adm({ events }) {
+export default function Adm({ events = [] }) {
   const [activeTab, setActiveTab] = useState("");
 
   useEffect(() => {
-    if (events.length > 0) {
+    if (events && events.length > 0) {
       setActiveTab("crud");
     } else {
       setActiveTab("register");
@@ -35,7 +35,7 @@ export default function Adm({ events }) {
       </div>
 
       <div className={style.eventsCustom}>
-        {activeTab === "crud" ? <CRUD e={events} /> : <Register />}
+        {activeTab === "crud" ? <CRUD events={events} /> : <Register />}
       </div>
 
       <a className={style.return} href="/">

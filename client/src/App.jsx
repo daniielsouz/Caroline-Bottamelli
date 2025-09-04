@@ -14,9 +14,9 @@ import PrivateRoute from "./components/PrivateRoute";
 function MainPage({ events }) {
   return (
     <>
-      <Header events={events} />
+      <Header events={events || []} />
       <About />
-      {events.length > 0 && <Events events={events} />}
+      {events && events.length > 0 && <Events events={events} />}
       <Potencialize />
       <Fenix />
       <Branding />
@@ -35,7 +35,7 @@ function AppRoutesWrapper() {
   useEffect(() => {
     fetch(`${apiUrl}/events`)
       .then((res) => res.json())
-      .then((data) => setEvents(data))
+      .then((data) => setEvents(data || []))
       .catch((err) => console.log("Erro ao buscar eventos", err));
   }, []);
 
@@ -55,11 +55,11 @@ function AppRoutesWrapper() {
         path="/adm"
         element={
           <PrivateRoute token={token}>
-            <Adm apiUrl={apiUrl} token={token} />
+            <Adm events={events || []} />
           </PrivateRoute>
         }
       />
-      <Route path="*" element={<MainPage events={events} />} />
+      <Route path="*" element={<MainPage events={events || []} />} />
     </Routes>
   );
 }
