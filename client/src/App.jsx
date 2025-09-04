@@ -28,16 +28,20 @@ function MainPage({ events }) {
 function AppRoutesWrapper() {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+
+  const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
-    const apiUrl = import.meta.env.VITE_API_URL;
     fetch(`${apiUrl}/events`)
       .then((res) => res.json())
       .then((data) => setEvents(data))
       .catch((err) => console.log("Erro ao buscar eventos", err));
   }, []);
 
-  function onLoginSuccess() {
+  function onLoginSuccess(receivedToken) {
+    setToken(receivedToken);
+    localStorage.setItem("token", receivedToken);
     navigate("/adm");
   }
 
@@ -50,8 +54,8 @@ function AppRoutesWrapper() {
       <Route
         path="/adm"
         element={
-          <PrivateRoute>
-            <Adm events={events} />
+          <PrivateRoute token={token}>
+            <Adm apiUrl={apiUrl} token={token} />
           </PrivateRoute>
         }
       />
