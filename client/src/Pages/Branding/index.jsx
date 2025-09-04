@@ -23,7 +23,7 @@ export default function Branding() {
       ]}
       video="https://res.cloudinary.com/dmdobsh3w/video/upload/v1234567890/video-branding_1_ndoltf.mp4"
       legend="Fale com o nosso time!"
-      link="https://wa.me/554791400520?text=Ol%C3%A1%2C%20quero%20saber%20mais!"
+      link="https://wa.me/554791400520?text=Ol%C3%A1%20%20quero%20saber%20mais!"
       //Não tá indo o texto, ver
       color="#ac8485"
     />

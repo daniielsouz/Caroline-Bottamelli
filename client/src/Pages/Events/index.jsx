@@ -7,17 +7,15 @@ export default function Events({ events }) {
     if (!date) return "";
     const d = new Date(date);
     if (isNaN(d)) return "Data inválida";
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
+    return `${String(d.getDate()).padStart(2, "0")}/${String(
+      d.getMonth() + 1
+    ).padStart(2, "0")}/${d.getFullYear()}`;
   }
 
   const sortedEvents = events
     ? [...events].sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate))
     : [];
 
-  // Conta eventos de cada tipo
   const onlineCount = sortedEvents.filter(
     (e) => e.eventLocation === "Online"
   ).length;
@@ -25,10 +23,8 @@ export default function Events({ events }) {
     (e) => e.eventLocation !== "Online"
   ).length;
 
-  // Define aba inicial
-  let initialTab = "Online";
-  if (onlineCount === 0 && presencialCount > 0) initialTab = "Presencial";
-  if (presencialCount === 0 && onlineCount > 0) initialTab = "Online";
+  const initialTab =
+    onlineCount === 0 && presencialCount > 0 ? "Presencial" : "Online";
 
   const [activeTab, setActiveTab] = useState(initialTab);
 
@@ -38,44 +34,45 @@ export default function Events({ events }) {
       : e.eventLocation !== "Online"
   );
 
+  const cardClass =
+    activeTab === "Online"
+      ? style.eventsCardOnline
+      : style.eventsCardPresencial;
+
   return (
     <>
       {sortedEvents.length > 0 && (
-        <section
-          id="Eventos"
-          className={`${style.sectionEvents} ${
-            activeTab === "Online" ? style.onlineBg : style.presencialBg
-          }`}
-        >
+        <section id="Eventos" className={style.sectionEvents}>
           <div className={style.line} />
           <h3>Próximos Eventos</h3>
 
           <div className={style.tabs}>
             <button
-              className={`${style.eventsCardPresencial} ${style.buttonlocation}`}
+              className={`${style.buttonlocation} ${
+                activeTab === "Presencial"
+                  ? style.activePresencial
+                  : style.inactivePresencial
+              }`}
               onClick={() => setActiveTab("Presencial")}
             >
-              Presencial
+              Presenciais
             </button>
             <button
-              className={`${style.eventsCardOnline} ${style.buttonlocation}`}
+              className={`${style.buttonlocation} ${
+                activeTab === "Online"
+                  ? style.activeOnline
+                  : style.inactiveOnline
+              }`}
               onClick={() => setActiveTab("Online")}
             >
               Online
             </button>
           </div>
-
           <div className={style.divEvents}>
             {filteredEvents.length > 0 ? (
               filteredEvents.map((e) => (
                 <div key={e._id}>
-                  <div
-                    className={`${style.eventsCard} ${
-                      activeTab === "Online"
-                        ? style.eventsCardOnline
-                        : style.eventsCardPresencial
-                    }`}
-                  >
+                  <div className={`${style.eventsCard} ${cardClass}`}>
                     <h2>{e.eventName}</h2>
                     <div className={style.eventDescription}>
                       <span>{e.eventDescription}</span>
@@ -94,13 +91,7 @@ export default function Events({ events }) {
                       </div>
                     </div>
                   </div>
-                  <div
-                    className={`${style.eventLink} ${
-                      activeTab === "Online"
-                        ? style.eventsCardOnline
-                        : style.eventsCardPresencial
-                    }`}
-                  >
+                  <div className={`${style.eventLink} ${cardClass}`}>
                     <a
                       title={`Inscrever-se em ${e.eventName}`}
                       href={e.eventLink}
