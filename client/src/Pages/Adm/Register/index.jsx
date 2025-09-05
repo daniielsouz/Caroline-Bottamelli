@@ -1,6 +1,6 @@
 import { useState } from "react";
 import style from "./index.module.css";
-import { getToken } from "../../utils/token";
+import { getToken } from "../../../utils/token";
 
 export default function Register() {
   const [formData, setFormData] = useState({
