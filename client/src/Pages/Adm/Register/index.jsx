@@ -1,111 +1,106 @@
 import { useState } from "react";
 import style from "./index.module.css";
-import styleAdm from "./../index.module.css";
-import Message from "../../../components/Message";
-import { getToken } from "../../../utils/token";
+import { getToken } from "../../utils/token";
 
 export default function Register() {
+  const [formData, setFormData] = useState({
+    eventName: "",
+    eventDescription: "",
+    eventDate: "",
+    eventLocation: "",
+    eventLink: "",
+  });
+
   const [message, setMessage] = useState(null);
-  const [typeMessage, setTypeMessage] = useState("");
-  const [isOnline, setIsOnline] = useState(false);
-  const [location, setLocation] = useState("");
+  const apiUrl = import.meta.env.VITE_API_URL;
+
+  function handleChange(e) {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    const token = getToken();
+    if (!token) {
+      setMessage({ type: "error", text: "Usuário não autenticado." });
+      return;
+    }
 
-    // Define a localização corretamente
-    data.eventLocation = isOnline ? "Online" : location;
-
-    if (data.eventDate) data.eventDate = new Date(data.eventDate + "T00:00:00");
-
-    fetch(`${import.meta.env.VITE_API_URL}/eventRegister`, {
+    fetch(`${apiUrl}/eventRegister`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${getToken()}`,
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(formData),
     })
       .then((res) => {
-        if (!res.ok) throw new Error();
-        return res.text();
+        if (!res.ok) throw new Error("Erro ao cadastrar evento");
+        return res.json();
       })
-      .then((msg) => {
-        e.target.reset();
-        setIsOnline(false);
-        setLocation("");
-        setMessage(msg);
-        setTypeMessage("success");
+      .then((data) => {
+        setMessage({ type: "success", text: "Evento cadastrado com sucesso!" });
+        setFormData({
+          eventName: "",
+          eventDescription: "",
+          eventDate: "",
+          eventLocation: "",
+          eventLink: "",
+        });
       })
-      .catch(() => {
-        setMessage("Erro ao cadastrar evento.");
-        setTypeMessage("error");
+      .catch((err) => {
+        setMessage({ type: "error", text: err.message });
       });
   }
 
   return (
-    <div className={styleAdm.divEvents}>
+    <div className={style.registerContainer}>
       {message && (
-        <Message type={typeMessage} onClose={() => setMessage(null)}>
-          {message}
-        </Message>
+        <p className={`${style.message} ${style[message.type]}`}>
+          {message.text}
+        </p>
       )}
-      <form onSubmit={handleSubmit} className={style.eventsForm}>
-        <div className={style.divInputs}>
-          <div>
-            <label>Nome:</label>
-            <input required autoFocus name="eventName" type="text" />
-          </div>
-
-          <div>
-            <label>Descrição:</label>
-            <textarea required name="eventDescription" />
-          </div>
-
-          <div>
-            <label>Data:</label>
-            <input
-              required
-              type="date"
-              name="eventDate"
-              min={new Date().toISOString().split("T")[0]}
-            />
-          </div>
-
-          <div>
-            <label>Localização:</label>
-            <div className={style.inputLocation}>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isOnline}
-                  onChange={(e) => setIsOnline(e.target.checked)}
-                />{" "}
-                Online
-              </label>
-
-              <input
-                required
-                type="text"
-                placeholder="Informe o local"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                disabled={isOnline}
-              />
-            </div>
-          </div>
-
-          <div>
-            <label>Link:</label>
-            <input required type="text" name="eventLink" />
-          </div>
-        </div>
-
-        <div className={style.eventButton}>
-          <button type="submit">Cadastrar evento</button>
-        </div>
+      <form onSubmit={handleSubmit} className={style.registerForm}>
+        <input
+          type="text"
+          name="eventName"
+          placeholder="Nome do evento"
+          value={formData.eventName}
+          onChange={handleChange}
+          required
+        />
+        <textarea
+          name="eventDescription"
+          placeholder="Descrição do evento"
+          value={formData.eventDescription}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="date"
+          name="eventDate"
+          value={formData.eventDate}
+          onChange={handleChange}
+          required
+          min={new Date().toISOString().split("T")[0]}
+        />
+        <input
+          type="text"
+          name="eventLocation"
+          placeholder="Local do evento"
+          value={formData.eventLocation}
+          onChange={handleChange}
+          required
+        />
+        <input
+          type="text"
+          name="eventLink"
+          placeholder="Link do evento"
+          value={formData.eventLink}
+          onChange={handleChange}
+        />
+        <button type="submit">Cadastrar Evento</button>
       </form>
     </div>
   );
