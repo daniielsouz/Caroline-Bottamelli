@@ -1,5 +1,7 @@
+// src/Pages/Adm/Register/index.jsx
 import { useState } from "react";
 import style from "./index.module.css";
+import Message from "../../../components/Message";
 import { getToken, removeToken } from "../../../utils/token";
 
 export default function Register() {
@@ -11,11 +13,13 @@ export default function Register() {
     eventLink: "",
     isOnline: false,
   });
+
   const [message, setMessage] = useState(null);
   const apiUrl = import.meta.env.VITE_API_URL;
 
   function handleChange(e) {
     const { name, value, checked, type } = e.target;
+
     if (name === "isOnline") {
       setFormData((prev) => ({
         ...prev,
@@ -28,23 +32,26 @@ export default function Register() {
       }));
       return;
     }
+
     setFormData({ ...formData, [name]: type === "checkbox" ? checked : value });
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
     const token = getToken();
-    if (!token)
-      return setMessage({ type: "error", text: "Usuário não autenticado." });
+
+    if (!token) {
+      setMessage({ type: "error", text: "Usuário não autenticado." });
+      return;
+    }
+
     if (
       !formData.eventName ||
       !formData.eventDescription ||
       !formData.eventDate
     ) {
-      return setMessage({
-        type: "error",
-        text: "Preencha os campos obrigatórios.",
-      });
+      setMessage({ type: "error", text: "Preencha os campos obrigatórios." });
+      return;
     }
 
     try {
@@ -56,22 +63,21 @@ export default function Register() {
         },
         body: JSON.stringify(formData),
       });
-      const data = await res.json();
+
+      const data = await res.json().catch(() => ({}));
+
       if (res.status === 401 || res.status === 403) {
         removeToken();
         throw new Error("Sessão expirada/ inválida. Faça login novamente.");
       }
-      if (!res.ok) throw new Error(data.error || "Erro ao cadastrar evento");
+      if (!res.ok) {
+        throw new Error(data.error || "Erro ao cadastrar evento");
+      }
 
       setMessage({ type: "success", text: "Evento cadastrado com sucesso!" });
-      setFormData({
-        eventName: "",
-        eventDescription: "",
-        eventDate: "",
-        eventLocation: "",
-        eventLink: "",
-        isOnline: false,
-      });
+
+      // ✅ recarrega a página após um pequeno delay (mostra a mensagem)
+      setTimeout(() => window.location.reload(), 1200);
     } catch (err) {
       setMessage({ type: "error", text: err.message });
     }
@@ -80,14 +86,14 @@ export default function Register() {
   return (
     <div className={style.registerContainer}>
       {message && (
-        <p className={`${style.message} ${style[message.type]}`}>
+        <Message type={message.type} onClose={() => setMessage(null)}>
           {message.text}
-        </p>
+        </Message>
       )}
 
       <div className={style.card}>
         <div className={style.header}>
-          <h3 className={style.title}>Cadastrar novo evento</h3>
+          <h3 className={style.title}>Cadastrar evento</h3>
         </div>
 
         <form onSubmit={handleSubmit} className={style.eventsForm}>
@@ -95,8 +101,10 @@ export default function Register() {
             <div className={style.field}>
               <label htmlFor="eventName">Nome</label>
               <input
+                type="text"
                 id="eventName"
                 name="eventName"
+                placeholder="Nome do evento"
                 value={formData.eventName}
                 onChange={handleChange}
                 required
@@ -108,6 +116,7 @@ export default function Register() {
               <textarea
                 id="eventDescription"
                 name="eventDescription"
+                placeholder="Descrição do evento"
                 value={formData.eventDescription}
                 onChange={handleChange}
                 required
@@ -130,8 +139,10 @@ export default function Register() {
             <div className={style.field}>
               <label htmlFor="eventLocation">Local</label>
               <input
+                type="text"
                 id="eventLocation"
                 name="eventLocation"
+                placeholder="Local do evento"
                 value={formData.eventLocation}
                 onChange={handleChange}
                 disabled={formData.isOnline}
@@ -152,8 +163,10 @@ export default function Register() {
             <div className={style.field}>
               <label htmlFor="eventLink">Link</label>
               <input
+                type="text"
                 id="eventLink"
                 name="eventLink"
+                placeholder="Link do evento"
                 value={formData.eventLink}
                 onChange={handleChange}
               />
@@ -161,7 +174,7 @@ export default function Register() {
           </div>
 
           <div className={style.eventButton}>
-            <button type="submit">Cadastrar evento</button>
+            <button type="submit">Cadastrar Evento</button>
           </div>
         </form>
       </div>

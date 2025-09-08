@@ -15,13 +15,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0; /* card já tem padding */
+  padding: 0;
   background: transparent;
   color: var(--background-color);
 }
 
 .card {
-  width: 100%;
+  width: 50vw;
   max-width: 640px;
   background: var(--color-text-Carol); /* fundo azul */
   color: var(--background-color); /* texto branco */
@@ -101,7 +101,7 @@
 
 .eventButton button {
   padding: 0.75rem 1.25rem;
-  background: #fff; /* botão branco no card azul */
+  background: #fff;
   color: var(--color-text-Carol);
   border: none;
   border-radius: 12px;
