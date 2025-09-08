@@ -167,7 +167,6 @@ cron.schedule("0 0 * * *", async () => {
   } catch {}
 });
 
-/* >>> SERVE SPA em /adm <<< */
 app.use("/adm", express.static(path.join(__dirname, "client", "dist")));
 app.get("/adm/*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "dist", "index.html"));

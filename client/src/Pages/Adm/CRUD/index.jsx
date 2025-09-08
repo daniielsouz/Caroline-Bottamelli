@@ -1,9 +1,13 @@
-// CRUD.jsx — versão com BASE_URL, troque apenas os src dos <img>
 import { useState } from "react";
 import Message from "./../../../components/Message";
 import styleAdm from "./../index.module.css";
 import style from "./index.module.css";
 import { getToken, removeToken } from "../../../utils/token";
+
+import confirmIcon from "../../../assets/img/confirm-icon.svg";
+import cancelIcon from "../../../assets/img/cancel-icon.svg";
+import editIcon from "../../../assets/img/edit-icon.svg";
+import delIcon from "../../../assets/img/del-icon.svg";
 
 export default function CRUD({ events = [] }) {
   const [eventSelected, setEventSelected] = useState(null);
@@ -24,7 +28,6 @@ export default function CRUD({ events = [] }) {
   });
   const [selectedEventId, setSelectedEventId] = useState("");
   const apiUrl = import.meta.env.VITE_API_URL;
-  const base = import.meta.env.BASE_URL || "/"; // <<--- usa a base do Vite
 
   const formDate = (date) => {
     if (!date) return "";
@@ -93,6 +96,7 @@ export default function CRUD({ events = [] }) {
         },
         body: JSON.stringify({ [mongoField]: updatedValue }),
       });
+
       const update = await res.json();
       if (res.status === 401 || res.status === 403) {
         removeToken();
@@ -127,6 +131,7 @@ export default function CRUD({ events = [] }) {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
+
       const data = await res.json().catch(() => ({}));
       if (res.status === 401 || res.status === 403) {
         removeToken();
@@ -174,18 +179,18 @@ export default function CRUD({ events = [] }) {
             />
             <label htmlFor={`saveEdit${field}`}>
               <img
-                className={style.icon}
-                src={`${base}img/confirm-icon.svg`}
-                alt="Salvar"
                 title="Salvar"
+                className={style.icon}
+                src={confirmIcon}
+                alt="Salvar"
               />
             </label>
             <label htmlFor={`cancelEdit${field}`}>
               <img
-                className={style.icon}
-                src={`${base}img/cancel-icon.svg`}
-                alt="Cancelar"
                 title="Cancelar"
+                className={style.icon}
+                src={cancelIcon}
+                alt="Cancelar"
               />
             </label>
             <button hidden id={`saveEdit${field}`} type="submit">
@@ -204,10 +209,10 @@ export default function CRUD({ events = [] }) {
           <>
             <label htmlFor={`editButton-${field}`}>
               <img
-                className={style.icon}
-                src={`${base}img/edit-icon.svg`}
-                alt="Editar"
                 title="Editar"
+                className={style.icon}
+                src={editIcon}
+                alt="Editar"
               />
             </label>
             <button
@@ -228,10 +233,10 @@ export default function CRUD({ events = [] }) {
               <>
                 <label htmlFor="eventDel">
                   <img
-                    className={style.icon}
-                    src={`${base}img/del-icon.svg`}
-                    alt="Excluir"
                     title="Excluir"
+                    className={style.icon}
+                    src={delIcon}
+                    alt="Excluir"
                   />
                 </label>
                 <button

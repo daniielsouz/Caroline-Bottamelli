@@ -1,4 +1,9 @@
 :root {
+  --background-color: #fffcf6;
+  --color-text-Carol: #013d61;
+  --color-text-Carol-light: rgba(1, 61, 97, 0.3);
+  --font: "Poppins", sans-serif;
+
   --radius: 12px;
   --radius-lg: 16px;
   --shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
@@ -8,140 +13,108 @@
 
 .wrap {
   width: 100%;
-  display: grid;
-  place-items: start center;
-  gap: 1rem;
+  display: flex;
+  justify-content: center;
 }
 
 .card {
   width: 100%;
-  max-width: 720px;
-  background: #fff;
-  border: var(--border);
+  max-width: 640px;
+  background: var(--color-text-Carol); /* fundo azul */
+  color: var(--background-color); /* texto branco */
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-  padding: 1.25rem;
+  padding: 1rem 1.25rem 1.25rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
 }
 
 .title {
-  font: 600 1.1rem var(--font);
-  color: var(--color-text-Carol);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--background-color);
 }
 
 .eventSelected {
-  padding: 0.875rem 1rem;
+  padding: 0.75rem 1rem;
   width: 100%;
-  border-radius: var(--radius);
-  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  margin: 0.75rem 0 1rem;
   font-size: 1rem;
-  color: var(--color-text-Carol);
-  background-color: var(--background-color);
-  cursor: pointer;
+  background: #fff; /* campo branco */
+  color: var(--color-text-Carol); /* texto azul */
   outline: none;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
 .eventSelected:focus {
   box-shadow: var(--focus);
-  border-color: var(--color-text-Carol);
 }
 
 .divInputsCrud {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 0.875rem;
+  gap: 1rem;
   font-size: 1rem;
+  text-align: start;
 }
 
 .row {
   display: grid;
   grid-template-columns: auto 1fr auto;
-  gap: 0.75rem;
   align-items: center;
+  gap: 0.75rem;
 }
 
 .row span {
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  color: var(--color-text-Carol);
-  background: var(--background-color);
-  border: 1px solid #e6e6e6;
-  border-radius: var(--radius);
-  padding: 0.5rem 0.75rem;
+  color: var(--background-color);
 }
 
-.row input {
-  padding: 0.625rem 0.75rem;
-  border-radius: var(--radius);
-  border: 1px solid #d9d9d9;
+.divInputsCrud input,
+.divInputsCrud textarea {
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #fff; /* campos brancos */
+  color: var(--color-text-Carol);
   font-size: 1rem;
   outline: none;
-  width: 100%;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.row input:focus {
+.divInputsCrud input:focus,
+.divInputsCrud textarea:focus {
   box-shadow: var(--focus);
-  border-color: var(--color-text-Carol);
+  border-color: transparent;
 }
 
+.divInputsCrud form {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Ícones brancos */
 .icon {
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.2rem;
   cursor: pointer;
-  opacity: 0.9;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+  transition: opacity 0.15s ease, transform 0.1s ease;
 }
 .icon:hover {
-  transform: scale(1.05);
   opacity: 1;
+  transform: translateY(-1px);
 }
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
+.icon:active {
+  transform: translateY(0);
 }
 
 .eventMessage {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--color-text-Carol);
   text-align: center;
-  opacity: 0.8;
-}
-
-.message {
   font-weight: 600;
-  text-align: center;
-  padding: 0.625rem 0.75rem;
-  border-radius: var(--radius);
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
-}
-.message.success {
-  color: #1f7a3e;
-  background: #eaf7ef;
-}
-.message.error {
-  color: #b42318;
-  background: #fdecea;
-}
-.message.info {
-  color: #8a6100;
-  background: #fff6e0;
-}
-
-@media (min-width: 720px) {
-  .divInputsCrud {
-    gap: 1rem;
-  }
+  color: var(--background-color);
 }

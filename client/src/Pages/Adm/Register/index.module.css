@@ -1,4 +1,9 @@
 :root {
+  --background-color: #fffcf6;
+  --color-text-Carol: #013d61;
+  --color-text-Carol-light: rgba(1, 61, 97, 0.3);
+  --font: "Poppins", sans-serif;
+
   --radius: 12px;
   --radius-lg: 16px;
   --shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
@@ -7,46 +12,47 @@
 }
 
 .registerContainer {
-  width: 100%;
-  display: grid;
-  place-items: start center;
-  gap: 1rem;
-  padding: 0;
-  background: var(--background-color);
-  color: var(--color-text-Carol);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0; /* card já tem padding */
+  background: transparent;
+  color: var(--background-color);
 }
 
 .card {
   width: 100%;
-  max-width: 720px;
-  background: #fff;
-  border: var(--border);
+  max-width: 640px;
+  background: var(--color-text-Carol); /* fundo azul */
+  color: var(--background-color); /* texto branco */
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-  padding: 1.25rem;
+  padding: 1rem 1.25rem 1.25rem;
 }
 
 .header {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: space-between;
   margin-bottom: 0.75rem;
 }
 
 .title {
-  font: 600 1.1rem var(--font);
-  color: var(--color-text-Carol);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--background-color);
 }
 
 .eventsForm {
-  display: grid;
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   width: 100%;
 }
 
 .divInputs {
   display: grid;
-  gap: 0.875rem;
+  gap: 1rem;
 }
 
 .field {
@@ -56,29 +62,26 @@
 
 .field label {
   font-weight: 600;
-  color: var(--color-text-Carol);
+  color: var(--background-color); /* label branca */
 }
 
-.field input,
-.field textarea,
-select {
-  padding: 0.625rem 0.75rem;
-  border: 1px solid #d9d9d9;
-  border-radius: var(--radius);
+.eventsForm input,
+.eventsForm textarea {
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: #fff; /* campos brancos */
+  color: var(--color-text-Carol);
   font-size: 1rem;
   outline: none;
-  background: #fff;
-  transition: box-shadow 0.2s ease, border-color 0.2s ease;
 }
-.field input:focus,
-.field textarea:focus,
-select:focus {
+.eventsForm input:focus,
+.eventsForm textarea:focus {
   box-shadow: var(--focus);
-  border-color: var(--color-text-Carol);
+  border-color: transparent;
 }
-
-.field textarea {
-  min-height: 90px;
+.eventsForm textarea {
+  height: 3.5rem;
   resize: vertical;
 }
 
@@ -87,26 +90,28 @@ select:focus {
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.5rem;
+  color: var(--background-color); /* texto branco */
 }
 
 .eventButton {
   display: flex;
   justify-content: center;
+  margin-top: 0.25rem;
 }
 
 .eventButton button {
-  padding: 0.875rem 1.25rem;
-  background: var(--color-primary);
-  color: #fff;
+  padding: 0.75rem 1.25rem;
+  background: #fff; /* botão branco no card azul */
+  color: var(--color-text-Carol);
   border: none;
-  border-radius: 999px;
+  border-radius: 12px;
   cursor: pointer;
   font-size: 1rem;
-  font-weight: 600;
-  transition: transform 0.15s ease, opacity 0.2s ease, background 0.3s ease;
+  font-weight: 700;
+  transition: transform 0.1s ease, box-shadow 0.2s ease, opacity 0.15s ease;
+  box-shadow: var(--shadow);
 }
 .eventButton button:hover {
-  opacity: 0.92;
   transform: translateY(-1px);
 }
 .eventButton button:active {
@@ -114,23 +119,16 @@ select:focus {
 }
 
 .message {
-  font-weight: 600;
   text-align: center;
-  padding: 0.625rem 0.75rem;
-  border-radius: var(--radius);
-  width: 100%;
-  max-width: 720px;
-  margin: 0 auto;
+  font-weight: 600;
+  color: var(--background-color);
 }
 .message.success {
-  color: #1f7a3e;
-  background: #eaf7ef;
+  color: #a4f1a4;
 }
 .message.error {
-  color: #b42318;
-  background: #fdecea;
+  color: #ffd1d1;
 }
 .message.info {
-  color: #8a6100;
-  background: #fff6e0;
+  color: #ffe4a3;
 }

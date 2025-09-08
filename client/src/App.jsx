@@ -11,7 +11,6 @@ import Adm from "./Pages/Adm";
 import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 
-// DEBUG: loga toda vez que tentam mexer no localStorage
 (function instrumentLocalStorage() {
   const _setItem = localStorage.setItem;
   const _removeItem = localStorage.removeItem;
@@ -47,7 +46,6 @@ function AppRoutesWrapper() {
   const navigate = useNavigate();
   const [events, setEvents] = useState([]);
   const [token, setToken] = useState(localStorage.getItem("token") || "");
-
   const apiUrl = import.meta.env.VITE_API_URL;
 
   useEffect(() => {
@@ -57,7 +55,6 @@ function AppRoutesWrapper() {
       .catch((err) => console.log("Erro ao buscar eventos", err));
   }, [apiUrl]);
 
-  // >>> robusto: só salva se token veio válido
   function onLoginSuccess(receivedToken) {
     if (
       typeof receivedToken === "string" &&
@@ -91,9 +88,9 @@ function AppRoutesWrapper() {
 }
 
 export default function App() {
-  const base = import.meta.env.BASE_URL || "/";
+  // como a app está na raiz em produção, basename = "/" (ou simplesmente omitir)
   return (
-    <BrowserRouter basename={base}>
+    <BrowserRouter basename="/">
       <AppRoutesWrapper />
     </BrowserRouter>
   );
