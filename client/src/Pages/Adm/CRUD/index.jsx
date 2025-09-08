@@ -157,7 +157,7 @@ export default function CRUD({ events = [] }) {
               <img
                 title="Salvar"
                 className={style.icon}
-                src="./img/confirm-icon.svg"
+                src="/img/confirm-icon.svg"
                 alt="Salvar"
               />
             </label>
@@ -165,7 +165,7 @@ export default function CRUD({ events = [] }) {
               <img
                 title="Cancelar"
                 className={style.icon}
-                src="./img/cancel-icon.svg"
+                src="/img/cancel-icon.svg"
                 alt="Cancelar"
               />
             </label>
@@ -187,7 +187,7 @@ export default function CRUD({ events = [] }) {
               <img
                 title="Editar"
                 className={style.icon}
-                src="./img/edit-icon.svg"
+                src="/img/edit-icon.svg"
                 alt="Editar"
               />
             </label>
@@ -211,7 +211,7 @@ export default function CRUD({ events = [] }) {
                   <img
                     title="Excluir"
                     className={style.icon}
-                    src="./img/del-icon.svg"
+                    src="/img/del-icon.svg"
                     alt="Excluir"
                   />
                 </label>
