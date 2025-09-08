@@ -1,3 +1,4 @@
+// CRUD.jsx — versão com BASE_URL, troque apenas os src dos <img>
 import { useState } from "react";
 import Message from "./../../../components/Message";
 import styleAdm from "./../index.module.css";
@@ -23,11 +24,12 @@ export default function CRUD({ events = [] }) {
   });
   const [selectedEventId, setSelectedEventId] = useState("");
   const apiUrl = import.meta.env.VITE_API_URL;
+  const base = import.meta.env.BASE_URL || "/"; // <<--- usa a base do Vite
 
   const formDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
-    if (isNaN(d)) return "";
+    if (Number.isNaN(d.getTime())) return "";
     return `${String(d.getDate()).padStart(2, "0")}/${String(
       d.getMonth() + 1
     ).padStart(2, "0")}/${d.getFullYear()}`;
@@ -36,7 +38,7 @@ export default function CRUD({ events = [] }) {
   const toInputDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
-    if (isNaN(d)) return "";
+    if (Number.isNaN(d.getTime())) return "";
     return d.toISOString().split("T")[0];
   };
 
@@ -54,7 +56,7 @@ export default function CRUD({ events = [] }) {
     let updatedValue = newValue;
     if (mongoField === "eventDate") {
       const d = new Date(newValue);
-      if (isNaN(d))
+      if (Number.isNaN(d.getTime()))
         return setMessage({ type: "error", text: "Data inválida." });
       d.setHours(0, 0, 0, 0);
       updatedValue = d;
@@ -69,11 +71,20 @@ export default function CRUD({ events = [] }) {
       mongoField === "eventDate"
         ? new Date(updatedValue).toISOString()
         : updatedValue;
+
     if (compValue === currentValue)
       return setMessage({ type: "info", text: "O valor não foi alterado." });
 
     try {
       const token = getToken();
+      if (!token) {
+        setMessage({
+          type: "error",
+          text: "Sessão expirada. Faça login novamente.",
+        });
+        return;
+      }
+
       const res = await fetch(`${apiUrl}/event/${eventSelected._id}`, {
         method: "PUT",
         headers: {
@@ -104,6 +115,14 @@ export default function CRUD({ events = [] }) {
     if (!confirm("Tem certeza que deseja excluir este evento?")) return;
     try {
       const token = getToken();
+      if (!token) {
+        setMessage({
+          type: "error",
+          text: "Sessão expirada. Faça login novamente.",
+        });
+        return;
+      }
+
       const res = await fetch(`${apiUrl}/event/deleteEvent/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
@@ -155,18 +174,18 @@ export default function CRUD({ events = [] }) {
             />
             <label htmlFor={`saveEdit${field}`}>
               <img
-                title="Salvar"
                 className={style.icon}
-                src="/img/confirm-icon.svg"
+                src={`${base}img/confirm-icon.svg`}
                 alt="Salvar"
+                title="Salvar"
               />
             </label>
             <label htmlFor={`cancelEdit${field}`}>
               <img
-                title="Cancelar"
                 className={style.icon}
-                src="/img/cancel-icon.svg"
+                src={`${base}img/cancel-icon.svg`}
                 alt="Cancelar"
+                title="Cancelar"
               />
             </label>
             <button hidden id={`saveEdit${field}`} type="submit">
@@ -185,10 +204,10 @@ export default function CRUD({ events = [] }) {
           <>
             <label htmlFor={`editButton-${field}`}>
               <img
-                title="Editar"
                 className={style.icon}
-                src="/img/edit-icon.svg"
+                src={`${base}img/edit-icon.svg`}
                 alt="Editar"
+                title="Editar"
               />
             </label>
             <button
@@ -209,10 +228,10 @@ export default function CRUD({ events = [] }) {
               <>
                 <label htmlFor="eventDel">
                   <img
-                    title="Excluir"
                     className={style.icon}
-                    src="/img/del-icon.svg"
+                    src={`${base}img/del-icon.svg`}
                     alt="Excluir"
+                    title="Excluir"
                   />
                 </label>
                 <button
