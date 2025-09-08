@@ -3,6 +3,8 @@ import style from "./index.module.css";
 import Register from "./Register";
 import CRUD from "./CRUD";
 
+const base = import.meta.env.BASE_URL || "/";
+
 export default function Adm({ events = [] }) {
   const [activeTab, setActiveTab] = useState("");
 
@@ -45,7 +47,7 @@ export default function Adm({ events = [] }) {
       </div>
 
       <a className={style.return} href="/" aria-label="Retornar">
-        <img title="Retornar" src="./img/return.svg" alt="Retornar" />
+        <img src={`${base}img/return.svg`} alt="Retornar" />
       </a>
     </section>
   );

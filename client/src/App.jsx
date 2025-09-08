@@ -91,8 +91,9 @@ function AppRoutesWrapper() {
 }
 
 export default function App() {
+  const base = import.meta.env.BASE_URL || "/";
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={base}>
       <AppRoutesWrapper />
     </BrowserRouter>
   );
