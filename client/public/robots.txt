@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /adm
+Disallow: /login
+Allow: /
+
+Sitemap: https://caroline-bottamelli.vercel.app/sitemap.xml
