@@ -11,6 +11,24 @@ import Adm from "./Pages/Adm";
 import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 
+// DEBUG: loga toda vez que tentam mexer no localStorage
+(function instrumentLocalStorage() {
+  const _setItem = localStorage.setItem;
+  const _removeItem = localStorage.removeItem;
+
+  localStorage.setItem = function (key, value) {
+    console.log(`[LS] setItem ${key} =`, value);
+    return _setItem.apply(this, arguments);
+  };
+
+  localStorage.removeItem = function (key) {
+    console.log(`[LS] removeItem ${key}`);
+    return _removeItem.apply(this, arguments);
+  };
+
+  console.log("[LS] instrumentation ON");
+})();
+
 function MainPage({ events }) {
   return (
     <>
@@ -37,11 +55,19 @@ function AppRoutesWrapper() {
       .then((res) => res.json())
       .then((data) => setEvents(data || []))
       .catch((err) => console.log("Erro ao buscar eventos", err));
-  }, []);
+  }, [apiUrl]);
 
+  // >>> robusto: só salva se token veio válido
   function onLoginSuccess(receivedToken) {
-    setToken(receivedToken);
-    localStorage.setItem("token", receivedToken);
+    if (
+      typeof receivedToken === "string" &&
+      receivedToken.split(".").length === 3
+    ) {
+      setToken(receivedToken);
+      localStorage.setItem("token", receivedToken);
+    } else {
+      console.warn("onLoginSuccess chamado sem token válido:", receivedToken);
+    }
     navigate("/adm");
   }
 

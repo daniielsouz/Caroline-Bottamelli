@@ -1,19 +1,21 @@
-import CryptoJS from "crypto-js";
-
-const secretKey = "chave-secreta-qualquer";
-
 export function saveToken(token) {
-  const encryptedToken = CryptoJS.AES.encrypt(token, secretKey).toString();
-  localStorage.setItem("token", encryptedToken);
+  if (!token || typeof token !== "string" || token.split(".").length !== 3) {
+    throw new Error("saveToken: token inválido");
+  }
+  localStorage.setItem("token", token);
 }
 
 export function getToken() {
-  const encryptedToken = localStorage.getItem("token");
-  if (!encryptedToken) return null;
-  const bytes = CryptoJS.AES.decrypt(encryptedToken, secretKey);
-  return bytes.toString(CryptoJS.enc.Utf8);
+  const t = localStorage.getItem("token");
+
+  if (t === "undefined" || t === "null" || t === "") return null;
+  return t;
 }
 
 export function removeToken() {
   localStorage.removeItem("token");
+}
+
+export function isAuthenticated() {
+  return !!getToken();
 }

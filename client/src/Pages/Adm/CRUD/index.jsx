@@ -2,7 +2,7 @@ import { useState } from "react";
 import Message from "./../../../components/Message";
 import styleAdm from "./../index.module.css";
 import style from "./index.module.css";
-import { getToken } from "../../../utils/token";
+import { getToken, removeToken } from "../../../utils/token";
 
 export default function CRUD({ events = [] }) {
   const [eventSelected, setEventSelected] = useState(null);
@@ -22,105 +22,129 @@ export default function CRUD({ events = [] }) {
     link: "",
   });
   const [selectedEventId, setSelectedEventId] = useState("");
-
   const apiUrl = import.meta.env.VITE_API_URL;
 
-  function formDate(date) {
+  const formDate = (date) => {
     if (!date) return "";
     const d = new Date(date);
-    const day = String(d.getDate()).padStart(2, "0");
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-  }
+    if (isNaN(d)) return "";
+    return `${String(d.getDate()).padStart(2, "0")}/${String(
+      d.getMonth() + 1
+    ).padStart(2, "0")}/${d.getFullYear()}`;
+  };
 
-  function updateEvent(e, field, mongoField) {
+  const toInputDate = (date) => {
+    if (!date) return "";
+    const d = new Date(date);
+    if (isNaN(d)) return "";
+    return d.toISOString().split("T")[0];
+  };
+
+  async function updateEvent(e, field, mongoField) {
     e.preventDefault();
     if (!eventSelected) return;
 
-    const newValue = editValues[field]?.trim();
-    if (!newValue) {
-      setMessage({ type: "info", text: "O campo não pode estar vazio." });
-      return;
-    }
+    const newValue = (editValues[field] ?? "").toString().trim();
+    if (!newValue)
+      return setMessage({
+        type: "info",
+        text: "O campo não pode estar vazio.",
+      });
 
     let updatedValue = newValue;
-    if (mongoField === "eventDate") updatedValue = new Date(newValue);
+    if (mongoField === "eventDate") {
+      const d = new Date(newValue);
+      if (isNaN(d))
+        return setMessage({ type: "error", text: "Data inválida." });
+      d.setHours(0, 0, 0, 0);
+      updatedValue = d;
+    }
 
     const currentValue =
       mongoField === "eventDate"
         ? new Date(eventSelected[mongoField]).toISOString()
-        : eventSelected[mongoField];
+        : eventSelected[mongoField] ?? "";
 
-    if (
+    const compValue =
       mongoField === "eventDate"
-        ? updatedValue.toISOString() === currentValue
-        : updatedValue === currentValue
-    ) {
-      setMessage({ type: "info", text: "O valor não foi alterado." });
-      return;
+        ? new Date(updatedValue).toISOString()
+        : updatedValue;
+    if (compValue === currentValue)
+      return setMessage({ type: "info", text: "O valor não foi alterado." });
+
+    try {
+      const token = getToken();
+      const res = await fetch(`${apiUrl}/event/${eventSelected._id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ [mongoField]: updatedValue }),
+      });
+      const update = await res.json();
+      if (res.status === 401 || res.status === 403) {
+        removeToken();
+        throw new Error("Sessão expirada/ inválida. Faça login novamente.");
+      }
+      if (!res.ok) throw new Error(update.error || "Erro ao salvar.");
+
+      setEventSelected(update);
+      setEditing({ ...editing, [field]: false });
+      setMessage({ type: "success", text: "Salvo com sucesso." });
+    } catch (err) {
+      setMessage({
+        type: "error",
+        text: `Erro ao salvar. Erro: ${err.message}`,
+      });
     }
-
-    const token = getToken();
-    fetch(`${apiUrl}/event/${eventSelected._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ [mongoField]: updatedValue }),
-    })
-      .then((res) => res.json())
-      .then((update) => {
-        const updatedList = events.map((ev) =>
-          ev._id === update._id ? update : ev
-        );
-        setEventSelected(update);
-        setEditing({ ...editing, [field]: false });
-        setMessage({ type: "success", text: "Salvo com sucesso." });
-      })
-      .catch((err) =>
-        setMessage({ type: "error", text: `Erro ao salvar. Erro: ${err}` })
-      );
   }
 
-  function handleDeleteEvent(id) {
+  async function handleDeleteEvent(id) {
     if (!confirm("Tem certeza que deseja excluir este evento?")) return;
+    try {
+      const token = getToken();
+      const res = await fetch(`${apiUrl}/event/deleteEvent/${id}`, {
+        method: "DELETE",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.status === 401 || res.status === 403) {
+        removeToken();
+        throw new Error("Sessão expirada/ inválida. Faça login novamente.");
+      }
+      if (!res.ok) throw new Error(data.error || "Erro ao excluir o evento.");
 
-    const token = getToken();
-    fetch(`${apiUrl}/event/deleteEvent/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then(() => {
-        setMessage({ type: "success", text: "Evento excluído com sucesso." });
-        setTimeout(() => window.location.reload(), 2000);
-      })
-      .catch(() =>
-        setMessage({ type: "error", text: "Erro ao excluir o evento." })
-      );
+      setMessage({ type: "success", text: "Evento excluído com sucesso." });
+      setTimeout(() => window.location.reload(), 1200);
+    } catch (err) {
+      setMessage({ type: "error", text: err.message });
+    }
   }
 
-  function renderEditableField(label, field, mongoField, type = "text") {
+  function renderEditableField(field, mongoField, type = "text") {
     if (!eventSelected) return null;
-
     const isEditing = editing[field];
-    const value =
-      type === "date" && isEditing
-        ? new Date(eventSelected[mongoField]).toISOString().split("T")[0]
-        : type === "date"
+    const readValue =
+      type === "date"
         ? formDate(eventSelected[mongoField])
         : eventSelected[mongoField];
 
     return (
-      <div>
+      <div className={style.row}>
         {isEditing ? (
-          <form onSubmit={(e) => updateEvent(e, field, mongoField)}>
+          <form
+            onSubmit={(e) => updateEvent(e, field, mongoField)}
+            className={style.row}
+            style={{ gridTemplateColumns: "1fr auto auto" }}
+          >
             <input
               type={type}
-              value={editValues[field] || ""}
+              value={
+                type === "date"
+                  ? editValues[field] ?? toInputDate(eventSelected[mongoField])
+                  : editValues[field] ?? (eventSelected[mongoField] || "")
+              }
               onChange={(e) =>
                 setEditValues({ ...editValues, [field]: e.target.value })
               }
@@ -131,18 +155,18 @@ export default function CRUD({ events = [] }) {
             />
             <label htmlFor={`saveEdit${field}`}>
               <img
-                title="Salvar Edição"
+                title="Salvar"
                 className={style.icon}
                 src="./img/confirm-icon.svg"
-                alt="Icone salvar"
+                alt="Salvar"
               />
             </label>
             <label htmlFor={`cancelEdit${field}`}>
               <img
-                title="Cancelar Edição"
+                title="Cancelar"
                 className={style.icon}
                 src="./img/cancel-icon.svg"
-                alt="Icone cancelar"
+                alt="Cancelar"
               />
             </label>
             <button hidden id={`saveEdit${field}`} type="submit">
@@ -161,34 +185,34 @@ export default function CRUD({ events = [] }) {
           <>
             <label htmlFor={`editButton-${field}`}>
               <img
-                title={`Editar`}
+                title="Editar"
                 className={style.icon}
                 src="./img/edit-icon.svg"
-                alt="Icone para edição"
+                alt="Editar"
               />
             </label>
             <button
               id={`editButton-${field}`}
               hidden
               onClick={() => {
-                setEditValues({
-                  ...editValues,
-                  [field]: eventSelected[mongoField],
-                });
+                let valueToEdit = eventSelected[mongoField] ?? "";
+                if (mongoField === "eventDate")
+                  valueToEdit = toInputDate(valueToEdit);
+                setEditValues({ ...editValues, [field]: valueToEdit });
                 setEditing({ ...editing, [field]: true });
               }}
             >
               Editar
             </button>
-            <span>{value}</span>
+            <span>{readValue || "-"}</span>
             {field === "name" && (
               <>
                 <label htmlFor="eventDel">
                   <img
-                    title="Deletar evento"
+                    title="Excluir"
                     className={style.icon}
                     src="./img/del-icon.svg"
-                    alt="Icone lixeiro"
+                    alt="Excluir"
                   />
                 </label>
                 <button
@@ -196,7 +220,7 @@ export default function CRUD({ events = [] }) {
                   id="eventDel"
                   onClick={() => handleDeleteEvent(eventSelected._id)}
                 >
-                  Excluir evento
+                  Excluir
                 </button>
               </>
             )}
@@ -214,8 +238,12 @@ export default function CRUD({ events = [] }) {
         </Message>
       )}
 
-      {events && events.length > 0 ? (
-        <>
+      <div className={style.wrap}>
+        <div className={style.card}>
+          <div className={style.header}>
+            <h3 className={style.title}>Gerenciar eventos</h3>
+          </div>
+
           <select
             className={style.eventSelected}
             name="eventSelected"
@@ -223,8 +251,9 @@ export default function CRUD({ events = [] }) {
             value={selectedEventId}
             onChange={(e) => {
               const idSelected = e.target.value;
-              const selectedEvent = events.find((ev) => ev._id === idSelected);
-              setEventSelected(selectedEvent);
+              const selected =
+                events.find((ev) => ev._id === idSelected) || null;
+              setEventSelected(selected);
               setSelectedEventId(idSelected);
             }}
           >
@@ -238,23 +267,21 @@ export default function CRUD({ events = [] }) {
             ))}
           </select>
 
-          {eventSelected && (
+          {eventSelected ? (
             <div className={style.divInputsCrud}>
-              {renderEditableField("Nome", "name", "eventName")}
-              {renderEditableField(
-                "Descrição",
-                "description",
-                "eventDescription"
-              )}
-              {renderEditableField("Data", "date", "eventDate", "date")}
-              {renderEditableField("Local", "location", "eventLocation")}
-              {renderEditableField("Link", "link", "eventLink")}
+              {renderEditableField("name", "eventName")}
+              {renderEditableField("description", "eventDescription")}
+              {renderEditableField("date", "eventDate", "date")}
+              {renderEditableField("location", "eventLocation")}
+              {renderEditableField("link", "eventLink")}
             </div>
+          ) : (
+            <p className={style.eventMessage}>
+              Selecione um evento para editar
+            </p>
           )}
-        </>
-      ) : (
-        <h1 className={style.eventMessage}>Você não tem eventos cadastrados</h1>
-      )}
+        </div>
+      </div>
     </div>
   );
 }

@@ -6,26 +6,25 @@ export default function Login({ onLoginSuccess }) {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
-
   const apiUrl = import.meta.env.VITE_API_URL;
 
   async function handleSubmit(e) {
     e.preventDefault();
     setError(null);
-
     try {
       const res = await fetch(`${apiUrl}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ user, password }),
+        body: JSON.stringify({ user: user.trim(), password: password.trim() }),
       });
-
-      if (!res.ok) throw new Error("Usuário ou senha inválidos");
-
       const data = await res.json();
-      saveToken(data.token);
+      if (!res.ok) throw new Error(data.error || "Usuário ou senha inválidos");
+      if (!data.token) throw new Error("Token não recebido do servidor");
 
-      onLoginSuccess(); // Pode redirecionar ou atualizar estado no pai
+      saveToken(data.token);
+      setUser("");
+      setPassword("");
+      onLoginSuccess ? onLoginSuccess(data.token) : window.location.reload();
     } catch (err) {
       setError(err.message);
     }
@@ -45,7 +44,6 @@ export default function Login({ onLoginSuccess }) {
             className={styles.input}
           />
         </div>
-
         <div>
           <label className={styles.label}>Senha:</label>
           <input
@@ -56,9 +54,7 @@ export default function Login({ onLoginSuccess }) {
             className={styles.input}
           />
         </div>
-
         {error && <p className={styles.error}>{error}</p>}
-
         <button type="submit" className={styles.button}>
           Entrar
         </button>
