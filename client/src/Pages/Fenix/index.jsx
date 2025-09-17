@@ -1,6 +1,7 @@
 import Products from "../../components/Products";
 import ImgFenix from "./../../assets/img/fenix.png";
 import logotipoFenix from "./../../assets/img/logotipoFenix.png";
+import capaFenix from "./../../assets/img/capaFenix.png";
 import JsonLd from "../../seo/JsonLd";
 
 export default function Fenix() {
@@ -56,6 +57,7 @@ export default function Fenix() {
         legend="Quero fazer minha aplicação!"
         link="https://form.respondi.app/5A36eZ9j"
         color="#543939"
+        poster={capaFenix}
       />
     </>
   );

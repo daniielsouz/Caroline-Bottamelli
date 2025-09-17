@@ -27,7 +27,6 @@ export default function About() {
         </div>
       </section>
       <section className={style.aboutIntro}>
-        <div className={style.divLine} />
         <p className={style.textIntro}>
           Nossos movimentos acompanham você em cada etapa da sua{" "}
           <strong> jornada como empreendedora</strong>.

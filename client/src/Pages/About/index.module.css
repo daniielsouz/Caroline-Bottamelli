@@ -35,14 +35,13 @@
 .aboutText h2,
 .aboutText p {
   width: 65%;
-
   font-size: 24px;
   font-weight: 200;
 }
 
 .focus {
   font-weight: 500;
-  font-size: 1.85rem;
+  font-size: 28px;
 }
 
 .emphasize {
@@ -55,32 +54,21 @@
   display: flex;
   align-items: center;
   justify-content: start;
+  margin-right: 10em;
 }
 
 .aboutImg img {
   width: 100%;
   height: auto;
-  object-fit: cover;
-  z-index: 1;
 }
 .aboutIntro {
   background-color: var(--background-color);
-  position: relative;
-  padding: 0 10% 0 50%;
+  padding: 0 3em 0 50%;
   height: 100vh;
   display: flex;
   align-items: center;
 }
 
-.divLine {
-  position: absolute;
-  top: -30vh;
-  right: 9%;
-  background-color: var(--color-text-Carol);
-  width: 1px;
-  height: 100vh;
-  color: var(--color-text-Carol);
-}
 .textIntro {
   font-family: var(--font);
   font-size: 1.5rem;
@@ -91,30 +79,40 @@
   line-height: 1.5;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1000px) {
   .about {
+    flex-direction: column;
     min-height: 70vh;
     align-items: center;
-    padding: 2rem 1rem;
+    padding: 4rem 1rem;
     gap: 2rem;
   }
-
   .aboutText {
     width: 100%;
     align-items: center;
     gap: 1.5rem;
   }
-
+  .aboutText h2,
+  .aboutText p {
+    width: calc(100vw - 6em);
+    text-align: start;
+    padding: 0 3em;
+  }
   .aboutText div:nth-of-type(1) {
     height: auto;
     justify-content: center;
     align-items: start;
   }
 
+  .focus {
+    font-weight: 500;
+    font-size: 20px;
+  }
+
   .aboutText h2,
   .aboutText p {
-    width: 50%;
     font-size: 18px;
+    text-align: center;
   }
 
   .emphasize {
@@ -123,33 +121,41 @@
 
   .aboutImg {
     width: 80%;
+    justify-content: center;
+    margin-right: 0;
   }
 
   .aboutImg img {
     width: 100%;
-    max-width: 300px;
+    max-width: 500px;
   }
   .aboutIntro {
     min-height: 70vh;
-    padding: 0 10% 0 40%;
+    padding: 0 3em 0 30%;
   }
   .textIntro {
     font-size: 1.1rem;
     letter-spacing: 2px;
   }
-  .divLine {
-    display: none;
-  }
 }
 
 @media (max-width: 500px) {
   .about {
-    flex-direction: column-reverse;
     margin-top: 2rem;
   }
   .aboutText h2,
   .aboutText p,
   .textIntro {
-    font-size: 0.8rem;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .focus,
+  .emphasize {
+    font-size: 1.1rem;
+  }
+  .aboutIntro {
+    min-height: 50vh;
+    padding: 0 3em;
   }
 }

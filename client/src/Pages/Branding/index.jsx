@@ -1,6 +1,7 @@
 import Products from "../../components/Products";
 import ImgBranding from "./../../assets/img/branding.png";
 import logotipoBranding from "./../../assets/img/logotipoBranding.png";
+import capaBranding from "./../../assets/img/capaBranding.png";
 import JsonLd from "../../seo/JsonLd";
 
 export default function Branding() {
@@ -63,6 +64,7 @@ export default function Branding() {
         legend="Fale com o nosso time!"
         link={waLink}
         color="#ac8485"
+        poster={capaBranding}
       />
     </>
   );

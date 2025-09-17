@@ -1,6 +1,7 @@
 import Products from "../../components/Products";
 import ImgPotencialize from "./../../assets/img/potencialize.png";
 import logotipoPotencialize from "./../../assets/img/logotipoPotencialize.png";
+import capaPotencialize from "./../../assets/img/capaPotencialize.png";
 import JsonLd from "../../seo/JsonLd";
 
 export default function Potencialize() {
@@ -57,6 +58,7 @@ export default function Potencialize() {
         legend="Seu acesso aqui!"
         link="https://pay.kiwify.com.br/aXZd54e"
         color="#768874"
+        poster={capaPotencialize}
       />
     </>
   );

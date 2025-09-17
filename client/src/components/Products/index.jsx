@@ -75,25 +75,34 @@ export default function Products({
             <video
               ref={videoRef}
               src={video}
-              poster={poster}
+              poster={poster} /* Capa do vídeo */
               className={style.customVideo}
-              preload="auto"
+              preload="metadata"
               playsInline
               style={{ border: `3px ${color} solid` }}
             />
+
+            {/* Overlay opcional: capa extra por cima, escondida ao dar play */}
+            {!isPlaying && poster && (
+              <div
+                className={style.videoCover}
+                style={{ backgroundImage: `url(${poster})` }}
+                aria-hidden="true"
+              />
+            )}
+
             {!isPlaying && (
-              <>
-                <button
-                  className={style.playButton}
-                  style={{ color, borderColor: color }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    togglePlay();
-                  }}
-                >
-                  ▶
-                </button>
-              </>
+              <button
+                className={style.playButton}
+                style={{ color, borderColor: color }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  togglePlay();
+                }}
+                aria-label="Reproduzir vídeo"
+              >
+                ▶
+              </button>
             )}
           </div>
 
