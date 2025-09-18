@@ -34,3 +34,14 @@ footer a {
   color: var(--color-text-Carol);
   font-family: var(--font);
 }
+
+@media (max-width: 768px) {
+  footer a {
+    font-size: 14px;
+  }
+}
+@media (max-width: 500px) {
+  footer a {
+    font-size: 12px;
+  }
+}
