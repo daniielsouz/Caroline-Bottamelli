@@ -7,20 +7,28 @@ export default function About() {
         <div className={style.aboutText}>
           <div>
             <div className={style.lineAbout} />
-            <h2>
-              Sou <strong className={style.focus}>empresária</strong>,{" "}
-              <strong className={style.focus}>mentora</strong>,{" "}
-              <strong className={style.focus}>
-                estrategista de posicionamento
-              </strong>{" "}
-              e <strong className={style.focus}>personal branding</strong>.{" "}
-              <br />
-              Lidero uma comunidade de mulheres
-              <br />
-              <strong className={style.emphasize}> POSICIONADAS</strong>.
-            </h2>
+            <div>
+              <h2>Olá, me chamo Carol Bottamelli</h2>
+              <h2>
+                Sou <strong className={style.focus}>empresária</strong>,{" "}
+                <strong className={style.focus}>mentora</strong>,{" "}
+                <strong className={style.focus}>
+                  estrategista de posicionamento
+                </strong>{" "}
+                e <strong className={style.focus}>personal branding</strong>.{" "}
+                <br />
+              </h2>
+              <h2 style={style.textSpacing}>
+                Lidero uma comunidade de mulheres
+                <br />
+                <strong className={style.emphasize}> POSICIONADAS</strong>.
+              </h2>
+            </div>
           </div>
-          <p>É possível sim levar o digital de forma leve. </p>
+          <p>
+            Levanto a bandeira de que é possível levar o digital de forma leve e
+            assertiva.{" "}
+          </p>
         </div>
         <div className={style.aboutImg}>
           <img src={Carol} alt="Imagem Carol Bottamelli" />
