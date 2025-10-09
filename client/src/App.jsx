@@ -74,7 +74,7 @@ function MainPage({ events }) {
   );
 
   useRouteSEO({
-    title: "Caroline Bottamelli - Coaching & Autoconhecimento",
+    title: "Carol Bottamelli - Coaching & Autoconhecimento",
     description:
       "Descubra o seu diferencial através da sua essência. Coaching, autoconhecimento e transformação com Caroline Bottamelli.",
     robots: "index,follow",
