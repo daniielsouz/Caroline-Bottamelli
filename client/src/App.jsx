@@ -74,9 +74,9 @@ function MainPage({ events }) {
   );
 
   useRouteSEO({
-    title: "Carol Bottamelli - Coaching & Autoconhecimento",
+    title: "Carol Bottamelli - Posicionamento Estratégico",
     description:
-      "Descubra o seu diferencial através da sua essência. Coaching, autoconhecimento e transformação com Caroline Bottamelli.",
+      "Descubra o seu diferencial através da sua essência. Posicionamento estratéfico, autoconhecimento e transformação com Carol Bottamelli.",
     robots: "index,follow",
     canonicalHref: canonical,
   });
@@ -102,7 +102,7 @@ function LoginPage({ onLoginSuccess }) {
   );
 
   useRouteSEO({
-    title: "Login - Caroline Bottamelli",
+    title: "Login - Carol Bottamelli",
     description: "Acesso ao painel administrativo.",
     robots: "noindex,nofollow",
     canonicalHref: canonical,
@@ -119,7 +119,7 @@ function AdmPage({ token, events }) {
   );
 
   useRouteSEO({
-    title: "Administração - Caroline Bottamelli",
+    title: "Administração - Carol Bottamelli",
     description: "Painel administrativo.",
     robots: "noindex,nofollow",
     canonicalHref: canonical,
