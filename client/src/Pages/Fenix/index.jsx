@@ -2,10 +2,17 @@ import Products from "../../components/Products";
 import ImgFenix from "./../../assets/img/fenix.png";
 import logotipoFenix from "./../../assets/img/logotipoFenix.png";
 import capaFenix from "./../../assets/img/capaFenix.png";
-import JsonLd from "../../seo/JsonLd";
+import JsonLd from "../../seo/JsonLd.jsx";
 
 export default function Fenix() {
-  const url = "https://SEU_DOMINIO_OFICIAL/#Fenix";
+  const origin =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://caroline-bottamelli.vercel.app";
+
+  const url = `${origin}/#Fenix`;
+  const ogImage = `${origin}/og-image.png`;
+
   const service = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -16,17 +23,18 @@ export default function Fenix() {
     provider: {
       "@type": "Organization",
       name: "Carol Bottamelli",
-      url: "https://SEU_DOMINIO_OFICIAL/",
+      url: origin + "/",
     },
     areaServed: "BR",
-    url: url,
+    url,
   };
+
   const video = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: "Fênix Mentoria — Depoimento",
     description: "Resultados e experiência na Mentoria Fênix.",
-    thumbnailUrl: ["https://SEU_DOMINIO_OFICIAL/img/og-fenix.jpg"],
+    thumbnailUrl: [ogImage],
     uploadDate: "2025-01-01T12:00:00-03:00",
     duration: "PT1M",
     contentUrl:
@@ -35,8 +43,9 @@ export default function Fenix() {
 
   return (
     <>
-      <JsonLd data={service} />
-      <JsonLd data={video} />
+      <JsonLd data={service} id="jsonld-fenix-service" />
+      <JsonLd data={video} id="jsonld-fenix-video" />
+
       <Products
         id="Fenix"
         logo={ImgFenix}

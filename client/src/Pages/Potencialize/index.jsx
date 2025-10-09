@@ -2,10 +2,17 @@ import Products from "../../components/Products";
 import ImgPotencialize from "./../../assets/img/potencialize.png";
 import logotipoPotencialize from "./../../assets/img/logotipoPotencialize.png";
 import capaPotencialize from "./../../assets/img/capaPotencialize.png";
-import JsonLd from "../../seo/JsonLd";
+import JsonLd from "../../seo/JsonLd.jsx";
 
 export default function Potencialize() {
-  const url = "https://SEU_DOMINIO_OFICIAL/#Potencialize";
+  const origin =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://caroline-bottamelli.vercel.app";
+
+  const url = `${origin}/#Potencialize`;
+  const ogImage = `${origin}/og-image.png`;
+
   const service = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -16,18 +23,19 @@ export default function Potencialize() {
     provider: {
       "@type": "Organization",
       name: "Carol Bottamelli",
-      url: "https://SEU_DOMINIO_OFICIAL/",
+      url: origin + "/",
     },
     areaServed: "BR",
-    url: url,
+    url,
   };
+
   const video = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: "Potencialize — Apresentação",
     description:
       "Estratégias práticas alinhadas à essência para criar comunidade e aumentar conversão.",
-    thumbnailUrl: ["https://SEU_DOMINIO_OFICIAL/img/og-potencialize.jpg"],
+    thumbnailUrl: [ogImage],
     uploadDate: "2025-01-01T12:00:00-03:00",
     duration: "PT1M",
     contentUrl:
@@ -36,8 +44,9 @@ export default function Potencialize() {
 
   return (
     <>
-      <JsonLd data={service} />
-      <JsonLd data={video} />
+      <JsonLd data={service} id="jsonld-potencialize-service" />
+      <JsonLd data={video} id="jsonld-potencialize-video" />
+
       <Products
         id="Potencialize"
         logo={ImgPotencialize}

@@ -2,10 +2,17 @@ import Products from "../../components/Products";
 import ImgBranding from "./../../assets/img/branding.png";
 import logotipoBranding from "./../../assets/img/logotipoBranding.png";
 import capaBranding from "./../../assets/img/capaBranding.png";
-import JsonLd from "../../seo/JsonLd";
+import JsonLd from "../../seo/JsonLd.jsx";
 
 export default function Branding() {
-  const url = "https://SEU_DOMINIO_OFICIAL/#Branding";
+  const origin =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://caroline-bottamelli.vercel.app";
+
+  const url = `${origin}/#Branding`;
+  const ogImage = `${origin}/og-image.png`;
+
   const service = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -16,33 +23,35 @@ export default function Branding() {
     provider: {
       "@type": "Organization",
       name: "Carol Bottamelli",
-      url: "https://SEU_DOMINIO_OFICIAL/",
+      url: origin + "/",
     },
     areaServed: "BR",
-    url: url,
+    url,
   };
+
   const video = {
     "@context": "https://schema.org",
     "@type": "VideoObject",
     name: "Branding — Apresentação",
     description:
       "Como o projeto de Branding desenvolve estratégia, posicionamento e identidade.",
-    thumbnailUrl: ["https://SEU_DOMINIO_OFICIAL/img/og-branding.jpg"],
+    thumbnailUrl: [ogImage],
     uploadDate: "2025-01-01T12:00:00-03:00",
     duration: "PT1M",
     contentUrl:
       "https://res.cloudinary.com/dmdobsh3w/video/upload/v1234567890/video-branding_1_ndoltf.mp4",
   };
+
   const phone = "554791400520";
   const text = "Olá, quero saber mais!";
-  const waLink = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
-    text
-  )}`;
+
+  const waLink = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
 
   return (
     <>
-      <JsonLd data={service} />
-      <JsonLd data={video} />
+      <JsonLd data={service} id="jsonld-branding-service" />
+      <JsonLd data={video} id="jsonld-branding-video" />
+
       <Products
         id="Branding"
         logo={ImgBranding}
