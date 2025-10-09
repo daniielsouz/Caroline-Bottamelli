@@ -1,12 +1,44 @@
 .quote {
-  width: 100%;
   font-style: italic;
-
-  text-align: center;
-  margin: 1rem 0;
-  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  line-height: 1.6;
   color: var(--color-text-Carol);
+  margin: 2rem auto;
+  max-width: 700px;
+  text-align: center;
+  position: relative;
+  padding: 1.5rem 2rem;
+  border-radius: 6px;
 }
+
+.quote p {
+  display: inline-block;
+  position: relative;
+}
+
+.quote p::before {
+  content: "“";
+  font-size: 2rem;
+  color: #aaa;
+
+  margin-right: 0.25rem;
+}
+
+.quote p::after {
+  content: "”";
+  font-size: 2rem;
+  color: #aaa;
+
+  margin-left: 0.25rem;
+}
+
+.signature {
+  display: block;
+  text-align: center;
+  margin-left: 50%;
+  font-size: 1rem;
+}
+
 .footer {
   position: relative;
   width: 100%;
@@ -49,6 +81,7 @@ footer a {
     font-size: 14px;
   }
 }
+
 @media (max-width: 500px) {
   footer a {
     font-size: 12px;

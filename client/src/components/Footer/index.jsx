@@ -5,11 +5,12 @@ export default function Footer() {
     <>
       <blockquote className={style.quote}>
         <p>O seu diferencial está na sua essência.</p>
-        <footer>— Carol Bottamelli</footer>
+        <span className={style.signature}>- Carol Bottamelli -</span>
       </blockquote>
+
       <footer className={style.footer}>
-        <a href="http://wa.me/554791400520" target="__blank">
-          <span>Restou alguma dúvida ?</span>
+        <a href="https://wa.me/554791400520" target="__blank" rel="noreferrer">
+          <span>Restou alguma dúvida? {""}</span>
           <span>Entre em contato com nossa equipe!</span>
         </a>
       </footer>
