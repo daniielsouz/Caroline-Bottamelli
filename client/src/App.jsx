@@ -74,9 +74,9 @@ function MainPage({ events }) {
   );
 
   useRouteSEO({
-    title: "Caroline Bottamelli - Coaching & Autoconhecimento",
+    title: "Carol Bottamelli - Posicionamento Estratégico",
     description:
-      "Descubra o seu diferencial através da sua essência. Coaching, autoconhecimento e transformação com Caroline Bottamelli.",
+      "Descubra o seu diferencial através da sua essência. Autoconhecimento, posicionamento estratégico e transformação com Carol Bottamelli.",
     robots: "index,follow",
     canonicalHref: canonical,
   });

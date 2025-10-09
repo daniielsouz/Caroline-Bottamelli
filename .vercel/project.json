@@ -1,0 +1,16 @@
+{
+  "projectId": "prj_PND10U27WrAUQFwrX9vDXFXt5XBf",
+  "orgId": "team_SWr8iC3DPpLeJ0zYQSNZUvFN",
+  "projectName": "caroline-bottamelli",
+  "settings": {
+    "createdAt": 1750716454329,
+    "framework": "vite",
+    "devCommand": null,
+    "installCommand": null,
+    "buildCommand": null,
+    "outputDirectory": null,
+    "rootDirectory": "client",
+    "directoryListing": false,
+    "nodeVersion": "22.x"
+  }
+}
