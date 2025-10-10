@@ -14,40 +14,59 @@ export default function Products({
 }) {
   const videoRef = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showCover, setShowCover] = useState(true); // <- mantém a capa até o vídeo começar
 
-  const togglePlay = () => {
-    const currentVideo = videoRef.current;
+  const togglePlay = async () => {
+    const v = videoRef.current;
+    if (!v) return;
 
-    const allVideos = document.querySelectorAll("video");
-    allVideos.forEach((vid) => {
-      if (vid !== currentVideo) {
-        vid.pause();
-      }
+    // Pausar outros vídeos
+    document.querySelectorAll("video").forEach((vid) => {
+      if (vid !== v) vid.pause();
     });
 
-    if (currentVideo.paused) {
-      currentVideo.muted = false;
-      currentVideo.play();
+    if (v.paused) {
+      // Começa muted (mais rápido e compatível)
+      const wasMuted = v.muted;
+      v.muted = true;
+      try {
+        await v.play();
+      } catch (err) {
+        console.error("Erro ao tentar dar play:", err);
+      }
+      setIsPlaying(true);
+      if (!wasMuted) v.muted = false;
     } else {
-      currentVideo.pause();
+      v.pause();
+      setIsPlaying(false);
+      setShowCover(true); // volta a capa quando pausa
     }
   };
 
   useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid) return;
+    const v = videoRef.current;
+    if (!v) return;
 
-    vid.muted = true;
+    const onPlay = () => setIsPlaying(true);
+    const onPlaying = () => setShowCover(false); // capa some só quando o vídeo realmente começa
+    const onWaiting = () => {
+      if (!v.currentTime) setShowCover(true);
+    };
+    const onPause = () => {
+      setIsPlaying(false);
+      setShowCover(true);
+    };
 
-    const handlePause = () => setIsPlaying(false);
-    const handlePlay = () => setIsPlaying(true);
-
-    vid.addEventListener("pause", handlePause);
-    vid.addEventListener("play", handlePlay);
+    v.addEventListener("play", onPlay);
+    v.addEventListener("playing", onPlaying);
+    v.addEventListener("waiting", onWaiting);
+    v.addEventListener("pause", onPause);
 
     return () => {
-      vid.removeEventListener("pause", handlePause);
-      vid.removeEventListener("play", handlePlay);
+      v.removeEventListener("play", onPlay);
+      v.removeEventListener("playing", onPlaying);
+      v.removeEventListener("waiting", onWaiting);
+      v.removeEventListener("pause", onPause);
     };
   }, []);
 
@@ -75,15 +94,18 @@ export default function Products({
             <video
               ref={videoRef}
               src={video}
-              poster={poster} /* Capa do vídeo */
+              poster={poster} // pode manter, o overlay cobre até o vídeo tocar
               className={style.customVideo}
               preload="metadata"
               playsInline
-              style={{ border: `3px ${color} solid` }}
+              style={{
+                border: `3px ${color} solid`,
+                opacity: showCover ? 0 : 1,
+                transition: "opacity 180ms ease",
+              }}
             />
 
-            {/* Overlay opcional: capa extra por cima, escondida ao dar play */}
-            {!isPlaying && poster && (
+            {showCover && poster && (
               <div
                 className={style.videoCover}
                 style={{ backgroundImage: `url(${poster})` }}
@@ -91,7 +113,7 @@ export default function Products({
               />
             )}
 
-            {!isPlaying && (
+            {showCover && (
               <button
                 className={style.playButton}
                 style={{ color, borderColor: color }}
