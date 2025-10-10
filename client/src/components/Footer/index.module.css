@@ -1,5 +1,4 @@
 .quote {
-  width: 100vw;
   font-style: italic;
   font-size: 1.2rem;
   line-height: 1.6;
@@ -9,6 +8,10 @@
   border-radius: 6px;
   background-color: var(--background-color);
   padding: 2em;
+}
+.quote div {
+  display: flex;
+  flex-direction: column;
 }
 
 .quote p {
@@ -31,9 +34,8 @@
 }
 
 .signature {
-  display: block;
   text-align: center;
-  margin-left: 25%;
+  margin-left: 10%;
   font-size: 1rem;
 }
 
@@ -74,12 +76,26 @@ footer a {
 }
 
 @media (max-width: 768px) {
-  footer a {
+  footer a,
+  .quote,
+  .signature {
     font-size: 14px;
+  }
+
+  .quote {
+    padding: 0 0 1rem;
   }
 }
 
 @media (max-width: 500px) {
+  footer a,
+  .quote,
+  .signature {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 400px) {
   footer a {
     font-size: 12px;
   }

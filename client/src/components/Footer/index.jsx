@@ -4,8 +4,10 @@ export default function Footer() {
   return (
     <>
       <blockquote className={style.quote}>
-        <p>O seu diferencial está na sua essência.</p>
-        <span className={style.signature}>- Carol Bottamelli -</span>
+        <div>
+          <p>O seu diferencial está na sua essência.</p>
+          <span className={style.signature}>- Carol Bottamelli -</span>
+        </div>
       </blockquote>
 
       <footer className={style.footer}>
